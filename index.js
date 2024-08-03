@@ -25,8 +25,8 @@ const swaggerDefinition = {
   openapi: process.env.OPENAPI_VER,
   info: {
     title: title,
-    versin: process.env.VERSION,
-    desctiption: process.env.DESCRIPTION,
+    version: process.env.VERSION,
+    description: process.env.DESCRIPTION,
     contact: {
       name: process.env.AUTHOR_NAME,
       url: process.env.AUTHOR_SITE,
@@ -35,7 +35,7 @@ const swaggerDefinition = {
   servers: [
     {
       url: baseUrl,
-      desctiption: "Development Server",
+      description: "Development Server",
     },
   ],
 };
