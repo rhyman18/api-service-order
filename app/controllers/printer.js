@@ -27,6 +27,18 @@ const PrinterController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async create(req, res) {
+    try {
+      const createPrinter = await Printer.create({
+        name: req.body.name,
+      });
+
+      return responseJson(res, 200, "Success", createPrinter);
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = PrinterController;
