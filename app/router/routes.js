@@ -70,6 +70,50 @@ const apiRoutes = (app) => {
     PrinterController.findAll(req, res);
   });
 
+  /**
+   * @swagger
+   * /api/printers/{id}:
+   *   get:
+   *     summary: Get Info Printer
+   *     description: To get a list of one printer device based on id
+   *     tags:
+   *       - Printers
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: The printer ID
+   *     responses:
+   *       200:
+   *         description: Success
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: Success
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: integer
+   *                       example: 1
+   *                     name:
+   *                       type: string
+   *                       example: Printer Kasir
+   *       400:
+   *         description: Failed Invalid message
+   *       404:
+   *         description: Failed Printer not found
+   */
+  app.get("/api/printers/:id", (req, res) => {
+    PrinterController.findOne(req, res);
+  });
+
   app.all("*", (req, res) => {
     return responseJson(
       res,

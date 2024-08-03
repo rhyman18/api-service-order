@@ -11,6 +11,22 @@ const PrinterController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async findOne(req, res) {
+    try {
+      const getPrinter = await Printer.findOne({
+        where: { id: req.params.id },
+      });
+
+      if (!getPrinter) {
+        return responseJson(res, 404, "Failed: Printer not found");
+      }
+
+      return responseJson(res, 200, "Success", getPrinter);
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = PrinterController;
