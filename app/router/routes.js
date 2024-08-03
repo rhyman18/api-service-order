@@ -1,9 +1,13 @@
-module.exports = (app) => {
-  app.get("/", (req, res) => {
-    const response = {
-      'status': 200,
-      'message': 'Success'
-    };
-    return res.status(200).send(response);
+const responseJson = require("../utils/response");
+
+const apiRoutes = (app) => {
+  app.all("*", (req, res) => {
+    return responseJson(
+      res,
+      404,
+      "Not found. Please read API Docs @ /api/docs"
+    );
   });
 };
+
+module.exports = apiRoutes;
