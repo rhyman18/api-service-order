@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 
@@ -19,6 +21,32 @@ const title = process.env.TITLE;
 const port = process.env.PORT;
 const baseUrl = `${process.env.HOST}:${port}`;
 
+const swaggerDefinition = {
+  openapi: process.env.OPENAPI_VER,
+  info: {
+    title: title,
+    versin: process.env.VERSION,
+    desctiption: process.env.DESCRIPTION,
+    contact: {
+      name: process.env.AUTHOR_NAME,
+      url: process.env.AUTHOR_SITE,
+    },
+  },
+  servers: [
+    {
+      url: baseUrl,
+      desctiption: "Development Server",
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ["./route/routes.js"],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -31,6 +59,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 require("./app/router/routes")(app);
 
