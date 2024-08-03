@@ -1,0 +1,37 @@
+{
+  "name": "api-service-order",
+  "version": "1.0.0",
+  "description": "Challenge untuk membuat API Service Order",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npx eslint . --fix",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhyman18/api-service-order.git"
+  },
+  "author": "Ari Budiman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rhyman18/api-service-order/issues"
+  },
+  "homepage": "https://github.com/rhyman18/api-service-order#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.0",
+    "sequelize": "^6.37.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "eslint": "^9.8.0",
+    "globals": "^15.9.0",
+    "nodemon": "^3.1.4"
+  }
+}
