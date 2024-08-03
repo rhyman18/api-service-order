@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const routes = require("./app/router/routes");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -62,6 +63,6 @@ app.use((req, res, next) => {
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-require("./app/router/routes")(app);
+routes(app);
 
 app.listen(port, () => console.log(`${title} run on ${baseUrl}`));
