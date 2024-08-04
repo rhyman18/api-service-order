@@ -2,6 +2,7 @@ const responseJson = require("../utils/response");
 const Joi = require("joi");
 const db = require("../models");
 const ProductItem = db.productItem;
+const ProductCategory = db.productCategory;
 
 const createProductItemSchema = Joi.object({
   name: Joi.string().min(3).max(50).required().messages({
@@ -22,7 +23,7 @@ const ProductItemController = {
   async findAll(req, res) {
     try {
       const getProductItems = await ProductItem.findAll({
-        include: [{ model: db.productCategory }],
+        include: [{ model: ProductCategory }],
       });
 
       if (!getProductItems.length) {
@@ -39,7 +40,7 @@ const ProductItemController = {
     try {
       const getProductItem = await ProductItem.findOne({
         where: { id: req.params.id },
-        include: [{ model: db.productCategory }],
+        include: [{ model: ProductCategory }],
       });
 
       if (!getProductItem) {
@@ -62,9 +63,7 @@ const ProductItemController = {
 
       const { name, productCategoryId } = req.body;
 
-      const productCategory = await db.productCategory.findByPk(
-        productCategoryId
-      );
+      const productCategory = await ProductCategory.findByPk(productCategoryId);
       if (!productCategory) {
         return responseJson(res, 404, "Failed: Product Category not found");
       }
@@ -90,9 +89,7 @@ const ProductItemController = {
 
       const { name, productCategoryId } = req.body;
 
-      const productCategory = await db.productCategory.findByPk(
-        productCategoryId
-      );
+      const productCategory = await ProductCategory.findByPk(productCategoryId);
       if (!productCategory) {
         return responseJson(res, 404, "Failed: Product Category not found");
       }
