@@ -13,7 +13,7 @@ const productCategory = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "product_category",
+      modelName: "productCategory",
       timestamps: false,
     }
   );
