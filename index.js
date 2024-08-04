@@ -7,6 +7,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const checkRoute = require("./app/router/checkRoute");
 const printerRoute = require("./app/router/printer");
+const tableRoute = require("./app/router/table");
 const notFoundRoute = require("./app/router/notFound");
 
 const app = express();
@@ -68,6 +69,7 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/", checkRoute);
 app.use("/api/", printerRoute);
+app.use("/api/", tableRoute);
 app.use("*", notFoundRoute);
 
 app.listen(port, () => console.log(`${title} run on ${baseUrl}`));
