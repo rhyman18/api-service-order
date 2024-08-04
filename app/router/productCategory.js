@@ -131,4 +131,56 @@ productCategoryRoute.post("/product/category", (req, res) => {
   ProductCategoryController.create(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/category/{id}:
+ *   put:
+ *     summary: Update Product Category
+ *     description: Update an existing product category
+ *     tags:
+ *       - Product Categories
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The product category ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the product category
+ *                 example: Minuman
+ *             required:
+ *               - name
+ *     responses:
+ *       200:
+ *         description: Successfully updated product category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Category not found
+ */
+productCategoryRoute.put("/product/category/:id", (req, res) => {
+  ProductCategoryController.update(req, res);
+});
+
 module.exports = productCategoryRoute;

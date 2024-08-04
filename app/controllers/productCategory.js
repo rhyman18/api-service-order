@@ -61,6 +61,33 @@ const ProductCategoryController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async update(req, res) {
+    try {
+      const { error } = createProductCategorySchema.validate(req.body);
+
+      if (error) {
+        return responseJson(res, 400, `Failed: ${error.details[0].message}`);
+      }
+
+      const updateProductCategory = await ProductCategory.update(
+        {
+          name: req.body.name,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      );
+
+      if (updateProductCategory[0] === 0) {
+        return responseJson(res, 404, "Failed: Product category not found");
+      }
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = ProductCategoryController;
