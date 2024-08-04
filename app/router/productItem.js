@@ -222,4 +222,43 @@ productItemRoute.put("/product/items/:id", (req, res) => {
   ProductItemController.update(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/items/{id}:
+ *   delete:
+ *     summary: Delete Product Item
+ *     description: Delete an existing product item
+ *     tags:
+ *       - Product Items
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The product item ID
+ *     responses:
+ *       200:
+ *         description: Successfully deleted product item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Item not found
+ */
+productItemRoute.delete("/product/items/:id", (req, res) => {
+  ProductItemController.destroy(req, res);
+});
+
 module.exports = productItemRoute;
