@@ -214,6 +214,45 @@ const apiRoutes = (app) => {
     PrinterController.update(req, res);
   });
 
+  /**
+   * @swagger
+   * /api/printers/{id}:
+   *   delete:
+   *     summary: Delete Printer
+   *     description: Delete an existing printer device
+   *     tags:
+   *       - Printers
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: The printer ID
+   *     responses:
+   *       200:
+   *         description: Successfully deleted printer
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: Success
+   *                 data:
+   *                   type: object
+   *                   nullable: true
+   *                   example: null
+   *       400:
+   *         description: Failed Invalid message
+   *       404:
+   *         description: Failed Printer not found
+   */
+  app.delete("/api/printers/:id", (req, res) => {
+    PrinterController.destroy(req, res);
+  });
+
   app.all("*", (req, res) => {
     return responseJson(
       res,

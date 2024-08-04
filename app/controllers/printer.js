@@ -83,6 +83,22 @@ const PrinterController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async destroy(req, res) {
+    try {
+      const deletePrinter = await Printer.destroy({
+        where: { id: req.params.id },
+      });
+
+      if (!deletePrinter) {
+        return responseJson(res, 404, "Failed: Printer not found");
+      }
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = PrinterController;
