@@ -41,7 +41,7 @@ productCategoryRoute.get("/product/categories", (req, res) => {
 
 /**
  * @swagger
- * /api/product/category/{id}:
+ * /api/product/categories/{id}:
  *   get:
  *     summary: Get Info Product Category
  *     description: To get a list of one Product Category based on id
@@ -79,13 +79,13 @@ productCategoryRoute.get("/product/categories", (req, res) => {
  *       404:
  *         description: Failed Product Category not found
  */
-productCategoryRoute.get("/product/category/:id", (req, res) => {
+productCategoryRoute.get("/product/categories/:id", (req, res) => {
   ProductCategoryController.findOne(req, res);
 });
 
 /**
  * @swagger
- * /api/product/category:
+ * /api/product/categories:
  *   post:
  *     summary: Add Product Category
  *     description: Create a new product category
@@ -127,13 +127,13 @@ productCategoryRoute.get("/product/category/:id", (req, res) => {
  *       400:
  *         description: Failed Invalid message
  */
-productCategoryRoute.post("/product/category", (req, res) => {
+productCategoryRoute.post("/product/categories", (req, res) => {
   ProductCategoryController.create(req, res);
 });
 
 /**
  * @swagger
- * /api/product/category/{id}:
+ * /api/product/categories/{id}:
  *   put:
  *     summary: Update Product Category
  *     description: Update an existing product category
@@ -179,13 +179,13 @@ productCategoryRoute.post("/product/category", (req, res) => {
  *       404:
  *         description: Failed Product Category not found
  */
-productCategoryRoute.put("/product/category/:id", (req, res) => {
+productCategoryRoute.put("/product/categories/:id", (req, res) => {
   ProductCategoryController.update(req, res);
 });
 
 /**
  * @swagger
- * /api/product/category/{id}:
+ * /api/product/categories/{id}:
  *   delete:
  *     summary: Delete Product Category
  *     description: Delete an existing product category
@@ -218,7 +218,7 @@ productCategoryRoute.put("/product/category/:id", (req, res) => {
  *       404:
  *         description: Failed Product Category not found
  */
-productCategoryRoute.delete("/product/category/:id", (req, res) => {
+productCategoryRoute.delete("/product/categories/:id", (req, res) => {
   ProductCategoryController.destroy(req, res);
 });
 
