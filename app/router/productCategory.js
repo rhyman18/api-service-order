@@ -183,4 +183,43 @@ productCategoryRoute.put("/product/category/:id", (req, res) => {
   ProductCategoryController.update(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/category/{id}:
+ *   delete:
+ *     summary: Delete Product Category
+ *     description: Delete an existing product category
+ *     tags:
+ *       - Product Categories
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The product category ID
+ *     responses:
+ *       200:
+ *         description: Successfully deleted product category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Category not found
+ */
+productCategoryRoute.delete("/product/category/:id", (req, res) => {
+  ProductCategoryController.destroy(req, res);
+});
+
 module.exports = productCategoryRoute;

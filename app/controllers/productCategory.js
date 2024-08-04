@@ -88,6 +88,22 @@ const ProductCategoryController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async destroy(req, res) {
+    try {
+      const deleteProductCategory = await ProductCategory.destroy({
+        where: { id: req.params.id },
+      });
+
+      if (!deleteProductCategory) {
+        return responseJson(res, 404, "Failed: Product Category not found");
+      }
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = ProductCategoryController;
