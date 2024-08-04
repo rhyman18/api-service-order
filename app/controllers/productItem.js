@@ -18,6 +18,23 @@ const ProductItemController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async findOne(req, res) {
+    try {
+      const getProductItem = await ProductItem.findOne({
+        where: { id: req.params.id },
+        include: [{ model: db.productCategory }],
+      });
+
+      if (!getProductItem) {
+        return responseJson(res, 404, "Failed: Product item not found");
+      }
+
+      return responseJson(res, 200, "Success", getProductItem);
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = ProductItemController;
