@@ -79,6 +79,43 @@ const ProductItemController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async update(req, res) {
+    try {
+      const { error } = createProductItemSchema.validate(req.body);
+
+      if (error) {
+        return responseJson(res, 400, `Failed: ${error.details[0].message}`);
+      }
+
+      const { name, productCategoryId } = req.body;
+
+      const productCategory = await db.productCategory.findByPk(
+        productCategoryId
+      );
+      if (!productCategory) {
+        return responseJson(res, 404, "Failed: Product Category not found");
+      }
+
+      const updateProductItem = await ProductItem.update(
+        {
+          name,
+          productCategoryId,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      );
+
+      if (updateProductItem[0] === 0) {
+        return responseJson(res, 404, "Failed: Product item not found");
+      }
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = ProductItemController;
