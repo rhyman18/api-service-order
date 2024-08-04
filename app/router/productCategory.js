@@ -83,4 +83,52 @@ productCategoryRoute.get("/product/category/:id", (req, res) => {
   ProductCategoryController.findOne(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/category:
+ *   post:
+ *     summary: Add Product Category
+ *     description: Create a new product category
+ *     tags:
+ *       - Product Categories
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the product category
+ *                 example: Minuman
+ *             required:
+ *               - name
+ *     responses:
+ *       200:
+ *         description: Successfully created product category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: Minuman
+ *       400:
+ *         description: Failed Invalid message
+ */
+productCategoryRoute.post("/product/category", (req, res) => {
+  ProductCategoryController.create(req, res);
+});
+
 module.exports = productCategoryRoute;
