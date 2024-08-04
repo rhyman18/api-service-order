@@ -131,4 +131,56 @@ tableRoute.post("/tables", (req, res) => {
   TableController.create(req, res);
 });
 
+/**
+ * @swagger
+ * /api/tables/{id}:
+ *   put:
+ *     summary: Update Table
+ *     description: Update an existing table
+ *     tags:
+ *       - Tables
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The table ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the table
+ *                 example: MEJA NO 1
+ *             required:
+ *               - name
+ *     responses:
+ *       200:
+ *         description: Successfully updated table
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Table not found
+ */
+tableRoute.put("/tables/:id", (req, res) => {
+  TableController.update(req, res);
+});
+
 module.exports = tableRoute;
