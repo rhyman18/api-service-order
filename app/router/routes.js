@@ -162,6 +162,58 @@ const apiRoutes = (app) => {
     PrinterController.create(req, res);
   });
 
+  /**
+   * @swagger
+   * /api/printers/{id}:
+   *   post:
+   *     summary: Update Printer
+   *     description: Edit printer device
+   *     tags:
+   *       - Printers
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: The printer ID
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               name:
+   *                 type: string
+   *                 description: The name of the printer
+   *                 example: Printer Kasir
+   *             required:
+   *               - name
+   *     responses:
+   *       200:
+   *         description: Successfully updated printer
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: Success
+   *                 data:
+   *                   type: object
+   *                   nullable: true
+   *                   example: null
+   *       400:
+   *         description: Failed Invalid message
+   *       404:
+   *         description: Failed Printer not found
+   */
+  app.post("/api/printers/:id", (req, res) => {
+    PrinterController.update(req, res);
+  });
+
   app.all("*", (req, res) => {
     return responseJson(
       res,
