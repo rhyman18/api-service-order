@@ -1,4 +1,3 @@
-const responseJson = require("../utils/response");
 const CheckController = require("../controllers/checkController");
 
 const apiRoutes = (app) => {
@@ -30,14 +29,6 @@ const apiRoutes = (app) => {
    */
   app.get("/api/check", (req, res) => {
     CheckController.db(req, res);
-  });
-
-  app.all("*", (req, res) => {
-    return responseJson(
-      res,
-      404,
-      "Not found. Please read API Docs @ /api/docs"
-    );
   });
 };
 

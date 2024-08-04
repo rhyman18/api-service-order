@@ -2,8 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+
 const routes = require("./app/router/routes");
 const printerRoute = require("./app/router/printer");
+const notFoundRoute = require("./app/router/notFound");
+
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -64,8 +67,10 @@ app.use((req, res, next) => {
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+routes(app);
+
 app.use("/api/", printerRoute);
 
-routes(app);
+app.use("*", notFoundRoute);
 
 app.listen(port, () => console.log(`${title} run on ${baseUrl}`));
