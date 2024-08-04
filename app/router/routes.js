@@ -119,7 +119,7 @@ const apiRoutes = (app) => {
    * /api/printers:
    *   post:
    *     summary: Add Printer
-   *     description: Create a new printer device.
+   *     description: Create a new printer device
    *     tags:
    *       - Printers
    *     requestBody:
@@ -131,13 +131,13 @@ const apiRoutes = (app) => {
    *             properties:
    *               name:
    *                 type: string
-   *                 description: The name of the printer.
+   *                 description: The name of the printer
    *                 example: Printer Kasir
    *             required:
    *               - name
    *     responses:
    *       200:
-   *         description: Successfully created printer.
+   *         description: Successfully created printer
    *         content:
    *           application/json:
    *             schema:
