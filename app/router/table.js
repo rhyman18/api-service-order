@@ -183,4 +183,43 @@ tableRoute.put("/tables/:id", (req, res) => {
   TableController.update(req, res);
 });
 
+/**
+ * @swagger
+ * /api/tables/{id}:
+ *   delete:
+ *     summary: Delete Table
+ *     description: Delete an existing table
+ *     tags:
+ *       - Tables
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The table ID
+ *     responses:
+ *       200:
+ *         description: Successfully deleted table
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Table not found
+ */
+tableRoute.delete("/tables/:id", (req, res) => {
+  TableController.destroy(req, res);
+});
+
 module.exports = tableRoute;
