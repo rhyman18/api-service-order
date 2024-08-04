@@ -16,13 +16,13 @@ const createProductCategorySchema = Joi.object({
 const ProductCategoryController = {
   async findAll(req, res) {
     try {
-      const getProductCategory = await ProductCategory.findAll();
+      const getProductCategories = await ProductCategory.findAll();
 
-      if (!getProductCategory.length) {
+      if (!getProductCategories.length) {
         return responseJson(res, 400, "Failed: Product categories is empty");
       }
 
-      return responseJson(res, 200, "Success", getProductCategory);
+      return responseJson(res, 200, "Success", getProductCategories);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
     }
