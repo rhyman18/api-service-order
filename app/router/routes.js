@@ -165,9 +165,9 @@ const apiRoutes = (app) => {
   /**
    * @swagger
    * /api/printers/{id}:
-   *   post:
+   *   put:
    *     summary: Update Printer
-   *     description: Edit printer device
+   *     description: Update an existing printer device
    *     tags:
    *       - Printers
    *     parameters:
@@ -210,7 +210,7 @@ const apiRoutes = (app) => {
    *       404:
    *         description: Failed Printer not found
    */
-  app.post("/api/printers/:id", (req, res) => {
+  app.put("/api/printers/:id", (req, res) => {
     PrinterController.update(req, res);
   });
 
