@@ -107,4 +107,62 @@ productItemRoute.get("/product/items/:id", (req, res) => {
   ProductItemController.findOne(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/items:
+ *   post:
+ *     summary: Add Product Item
+ *     description: Create a new product item
+ *     tags:
+ *       - Product Items
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the product item
+ *                 example: Jeruk
+ *               productCategoryId:
+ *                 type: integer
+ *                 description: The ID of the product category
+ *                 example: 1
+ *             required:
+ *               - name
+ *               - productCategoryId
+ *     responses:
+ *       200:
+ *         description: Successfully created product item
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: Jeruk
+ *                     productCategoryId:
+ *                       type: integer
+ *                       example: 1
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Category not found
+ */
+productItemRoute.post("/product/items", (req, res) => {
+  ProductItemController.create(req, res);
+});
+
 module.exports = productItemRoute;
