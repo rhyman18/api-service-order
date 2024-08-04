@@ -17,6 +17,11 @@ const PrinterController = {
   async findAll(req, res) {
     try {
       const getPrinters = await Printer.findAll();
+
+      if (!getPrinters.length) {
+        return responseJson(res, 400, "Failed: Printers is empty");
+      }
+
       return responseJson(res, 200, "Success", getPrinters);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
