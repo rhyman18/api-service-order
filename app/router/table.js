@@ -83,4 +83,52 @@ tableRoute.get("/tables/:id", (req, res) => {
   TableController.findOne(req, res);
 });
 
+/**
+ * @swagger
+ * /api/tables:
+ *   post:
+ *     summary: Add Table
+ *     description: Create a new table
+ *     tags:
+ *       - Tables
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the table
+ *                 example: MEJA NO 1
+ *             required:
+ *               - name
+ *     responses:
+ *       200:
+ *         description: Successfully created table
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: MEJA NO 1
+ *       400:
+ *         description: Failed Invalid message
+ */
+tableRoute.post("/tables", (req, res) => {
+  TableController.create(req, res);
+});
+
 module.exports = tableRoute;
