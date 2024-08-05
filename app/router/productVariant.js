@@ -299,8 +299,8 @@ productVariantRoute.delete("/product/variants/:id", (req, res) => {
  * @swagger
  * /api/product/variants/without:
  *   post:
- *     summary: Add Product without Variants (Price Only)
- *     description: Create a new product without variants
+ *     summary: Add Product without Variants
+ *     description: Create a new product without variants (Price Only)
  *     tags:
  *       - Product Variants
  *     requestBody:
@@ -338,6 +338,10 @@ productVariantRoute.delete("/product/variants/:id", (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       nullable: true
+ *                       example: null
  *                     price:
  *                       type: float
  *                       example: 12000
