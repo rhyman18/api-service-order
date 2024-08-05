@@ -224,14 +224,9 @@ productVariantRoute.post("/product/variants", (req, res) => {
  *                 format: float
  *                 description: The price of the product variant
  *                 example: 12000
- *               productItemId:
- *                 type: integer
- *                 description: The ID of the product item
- *                 example: 1
  *             required:
  *               - name
  *               - price
- *               - productItemId
  *     responses:
  *       200:
  *         description: Successfully updated product variant
@@ -250,7 +245,7 @@ productVariantRoute.post("/product/variants", (req, res) => {
  *       400:
  *         description: Failed Invalid message
  *       404:
- *         description: Failed Product Variant/Item not found
+ *         description: Failed Product Variant not found
  */
 productVariantRoute.put("/product/variants/:id", (req, res) => {
   ProductVariantController.update(req, res);

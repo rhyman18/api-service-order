@@ -47,10 +47,6 @@ const updateProductVariantSchema = Joi.object({
     "number.base": "Price must be a float",
     "any.required": "Price is required",
   }),
-  productItemId: Joi.number().integer().required().messages({
-    "number.base": "Product Item Id must be an integer",
-    "any.required": "Product Item Id is required",
-  }),
 });
 
 const withoutProductVariant = Joi.object({
@@ -154,18 +150,12 @@ const ProductVariantController = {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
       }
 
-      const { name, price, productItemId } = req.body;
-
-      const productItem = await ProductItem.findByPk(productItemId);
-      if (!productItem) {
-        return responseJson(res, 404, "Failed: Product Item not found");
-      }
+      const { name, price } = req.body;
 
       const updateProductVariant = await ProductVariant.update(
         {
           name,
           price,
-          productItemId,
         },
         {
           where: { id: req.params.id },
