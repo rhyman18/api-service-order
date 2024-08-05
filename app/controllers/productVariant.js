@@ -241,6 +241,60 @@ const ProductVariantController = {
       return responseJson(res, 400, `Failed: ${error.message}`);
     }
   },
+
+  async updateWithoutVariant(req, res) {
+    const t = await sequelize.transaction();
+
+    try {
+      const { error } = withoutProductVariant.validate(req.body);
+
+      if (error) {
+        await t.rollback();
+        return responseJson(res, 400, `Failed: ${error.details[0].message}`);
+      }
+
+      const { price, productItemId } = req.body;
+
+      const productItem = await ProductItem.findOne({
+        where: { id: productItemId },
+        include: [{ model: ProductVariant }],
+        transaction: t,
+      });
+
+      const checkProductWithoutVariant = productItem?.productVariants[0]?.name;
+
+      if (!productItem) {
+        await t.rollback();
+        return responseJson(res, 404, "Failed: Product Item not found");
+      } else if (checkProductWithoutVariant !== null) {
+        await t.rollback();
+        return responseJson(res, 404, "Failed: Wrong Product without variants");
+      }
+
+      const updateProductVariant = await ProductVariant.update(
+        {
+          price,
+          productItemId,
+        },
+        {
+          where: { id: req.params.id },
+        },
+        { transaction: t }
+      );
+
+      if (updateProductVariant[0] === 0) {
+        await t.rollback();
+        return responseJson(res, 404, "Failed: Product variant not found");
+      }
+
+      await t.commit();
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      await t.rollback();
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = ProductVariantController;
