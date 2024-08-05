@@ -53,6 +53,17 @@ const updateProductVariantSchema = Joi.object({
   }),
 });
 
+const withoutProductVariant = Joi.object({
+  price: Joi.number().precision(2).required().messages({
+    "number.base": "Price must be a float",
+    "any.required": "Price is required",
+  }),
+  productItemId: Joi.number().integer().required().messages({
+    "number.base": "Product Item Id must be an integer",
+    "any.required": "Product Item Id is required",
+  }),
+});
+
 const ProductVariantController = {
   async findAll(req, res) {
     try {
@@ -174,6 +185,60 @@ const ProductVariantController = {
       return responseJson(res, 200, "Success");
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
+
+  async create(req, res) {
+    const t = await sequelize.transaction();
+
+    try {
+      const { error } = withoutProductVariant.validate(req.body);
+
+      if (error) {
+        return responseJson(res, 400, `Failed: ${error.details[0].message}`);
+      }
+
+      const { price, productItemId } = req.body;
+
+      const productItem = await ProductItem.findOne({
+        where: { id: productItemId },
+        transaction: t,
+      });
+
+      if (!productItem) {
+        await t.rollback();
+        return responseJson(res, 404, "Failed: Product Item not found");
+      }
+
+      const existingVariants = await ProductVariant.findOne({
+        where: { productItemId },
+        transaction: t,
+      });
+
+      if (existingVariants) {
+        await t.rollback();
+        return responseJson(
+          res,
+          400,
+          "Failed: Product Item already has variants"
+        );
+      }
+
+      const createWithoutProductVariant = await ProductVariant.create(
+        {
+          name: null,
+          price,
+          productItemId,
+        },
+        { transaction: t }
+      );
+
+      await t.commit();
+
+      return responseJson(res, 200, "Success", createWithoutProductVariant);
+    } catch (error) {
+      await t.rollback();
+      return responseJson(res, 400, `Failed: ${error.message}`);
     }
   },
 };

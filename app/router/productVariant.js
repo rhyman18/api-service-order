@@ -295,4 +295,62 @@ productVariantRoute.delete("/product/variants/:id", (req, res) => {
   ProductVariantController.destroy(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/variants/without:
+ *   post:
+ *     summary: Add Product without Variants (Price Only)
+ *     description: Create a new product without variants
+ *     tags:
+ *       - Product Variants
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               price:
+ *                 type: float
+ *                 description: The price of the product without variants
+ *                 example: 12000
+ *               productItemId:
+ *                 type: integer
+ *                 description: The ID of the product item
+ *                 example: 1
+ *             required:
+ *               - price
+ *               - productItemId
+ *     responses:
+ *       200:
+ *         description: Successfully created product without variants
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     price:
+ *                       type: float
+ *                       example: 12000
+ *                     productItemId:
+ *                       type: integer
+ *                       example: 1
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Item not found
+ */
+productVariantRoute.post("/product/variants/without", (req, res) => {
+  ProductVariantController.create(req, res);
+});
+
 module.exports = productVariantRoute;
