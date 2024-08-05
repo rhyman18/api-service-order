@@ -10,6 +10,7 @@ const printerRoute = require("./app/router/printer");
 const tableRoute = require("./app/router/table");
 const productCategoryRoute = require("./app/router/productCategory");
 const productItemRoute = require("./app/router/productItem");
+const productVariantRoute = require("./app/router/productVariant");
 const notFoundRoute = require("./app/router/notFound");
 
 const app = express();
@@ -74,6 +75,7 @@ app.use("/api/", printerRoute);
 app.use("/api/", tableRoute);
 app.use("/api/", productCategoryRoute);
 app.use("/api/", productItemRoute);
+app.use("/api/", productVariantRoute);
 app.use("*", notFoundRoute);
 
 app.listen(port, () => console.log(`${title} run on ${baseUrl}`));
