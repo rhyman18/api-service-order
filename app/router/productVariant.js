@@ -256,4 +256,43 @@ productVariantRoute.put("/product/variants/:id", (req, res) => {
   ProductVariantController.update(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/variants/{id}:
+ *   delete:
+ *     summary: Delete Product Variant
+ *     description: Delete an existing product variant
+ *     tags:
+ *       - Product Variants
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The product variant ID
+ *     responses:
+ *       200:
+ *         description: Successfully deleted product variant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Variant not found
+ */
+productVariantRoute.delete("/product/variants/:id", (req, res) => {
+  ProductVariantController.destroy(req, res);
+});
+
 module.exports = productVariantRoute;

@@ -160,6 +160,22 @@ const ProductVariantController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async destroy(req, res) {
+    try {
+      const deleteProductVariant = await ProductVariant.destroy({
+        where: { id: req.params.id },
+      });
+
+      if (!deleteProductVariant) {
+        return responseJson(res, 404, "Failed: Product Variant not found");
+      }
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = ProductVariantController;
