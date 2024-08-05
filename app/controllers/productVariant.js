@@ -111,10 +111,20 @@ const ProductVariantController = {
 
       const { productItemId, variants } = req.body;
 
-      const productItem = await ProductItem.findByPk(productItemId);
+      const productItem = await ProductItem.findOne({
+        where: { id: productItemId },
+        include: [{ model: ProductVariant }],
+        transaction: t,
+      });
+
+      const checkProductVariant = productItem?.productVariants[0]?.name;
+
       if (!productItem) {
-        t.rollback();
+        await t.rollback();
         return responseJson(res, 404, "Failed: Product Item not found");
+      } else if (checkProductVariant === null) {
+        await t.rollback();
+        return responseJson(res, 404, "Failed: Wrong Product variants");
       }
 
       const productVariantsData = variants.map((variant) => ({
