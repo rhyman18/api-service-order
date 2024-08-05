@@ -119,4 +119,78 @@ productVariantRoute.get("/product/variants/:id", (req, res) => {
   ProductVariantController.findOne(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/variants:
+ *   post:
+ *     summary: Add Product Variants
+ *     description: Create new product variants
+ *     tags:
+ *       - Product Variants
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productItemId:
+ *                 type: integer
+ *                 description: The ID of the product item
+ *                 example: 1
+ *               variants:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       description: The name of the product variant
+ *                       example: DINGIN
+ *                     price:
+ *                       type: number
+ *                       format: float
+ *                       description: The price of the product variant
+ *                       example: 12000
+ *             required:
+ *               - productItemId
+ *               - variants
+ *     responses:
+ *       200:
+ *         description: Successfully created product variants
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         example: DINGIN
+ *                       price:
+ *                         type: number
+ *                         format: float
+ *                         example: 12000
+ *                       productItemId:
+ *                         type: integer
+ *                         example: 1
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Item not found
+ */
+productVariantRoute.post("/product/variants", (req, res) => {
+  ProductVariantController.bulkCreate(req, res);
+});
+
 module.exports = productVariantRoute;
