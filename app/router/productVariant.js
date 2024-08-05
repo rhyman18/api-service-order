@@ -193,4 +193,67 @@ productVariantRoute.post("/product/variants", (req, res) => {
   ProductVariantController.bulkCreate(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/variants/{id}:
+ *   put:
+ *     summary: Update Product Variant
+ *     description: Update an existing product variant
+ *     tags:
+ *       - Product Variants
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The product variant ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the product variant
+ *                 example: DINGIN
+ *               price:
+ *                 type: number
+ *                 format: float
+ *                 description: The price of the product variant
+ *                 example: 12000
+ *               productItemId:
+ *                 type: integer
+ *                 description: The ID of the product item
+ *                 example: 1
+ *             required:
+ *               - name
+ *               - price
+ *               - productItemId
+ *     responses:
+ *       200:
+ *         description: Successfully updated product variant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Variant/Item not found
+ */
+productVariantRoute.put("/product/variants/:id", (req, res) => {
+  ProductVariantController.update(req, res);
+});
+
 module.exports = productVariantRoute;
