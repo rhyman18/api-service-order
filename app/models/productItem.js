@@ -4,6 +4,7 @@ const productItem = (sequelize, DataTypes) => {
   class ProductItem extends Model {
     static associate(models) {
       ProductItem.belongsTo(models.productCategory);
+      ProductItem.hasMany(models.productVariant);
     }
   }
 
