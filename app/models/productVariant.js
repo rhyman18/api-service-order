@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 const productVariant = (sequelize, DataTypes) => {
   class ProductVariant extends Model {
     static associate(models) {
-      // relational with other models
+      ProductVariant.belongsTo(models.productItem);
     }
   }
 
@@ -11,6 +11,7 @@ const productVariant = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       price: DataTypes.FLOAT,
+      productItemId: DataTypes.INTEGER,
     },
     {
       sequelize,
