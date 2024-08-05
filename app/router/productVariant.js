@@ -57,4 +57,66 @@ productVariantRoute.get("/product/variants", (req, res) => {
   ProductVariantController.findAll(req, res);
 });
 
+/**
+ * @swagger
+ * /api/product/variants/{id}:
+ *   get:
+ *     summary: Get Info Product Variant
+ *     description: To get a list of one Product Variant based on id
+ *     tags:
+ *       - Product Variants
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The product variant ID
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: DINGIN
+ *                     price:
+ *                       type: float
+ *                       example: 12000
+ *                     productItemId:
+ *                       type: integer
+ *                       example: 1
+ *                     productItem:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           example: 1
+ *                         name:
+ *                           type: string
+ *                           example: Jeruk
+ *                         productCategoryId:
+ *                           type: integer
+ *                           example: 1
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Product Variant not found
+ */
+productVariantRoute.get("/product/variants/:id", (req, res) => {
+  ProductVariantController.findOne(req, res);
+});
+
 module.exports = productVariantRoute;
