@@ -379,10 +379,6 @@ productVariantRoute.post("/product/variants/without", (req, res) => {
  *                 format: float
  *                 description: The price of the product without variant
  *                 example: 12000
- *               productItemId:
- *                 type: integer
- *                 description: The ID of the product item
- *                 example: 1
  *             required:
  *               - price
  *               - productItemId

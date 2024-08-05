@@ -49,7 +49,7 @@ const updateProductVariantSchema = Joi.object({
   }),
 });
 
-const withoutProductVariant = Joi.object({
+const createWithoutProductVariantSchema = Joi.object({
   price: Joi.number().precision(2).required().messages({
     "number.base": "Price must be a float",
     "any.required": "Price is required",
@@ -57,6 +57,13 @@ const withoutProductVariant = Joi.object({
   productItemId: Joi.number().integer().required().messages({
     "number.base": "Product Item Id must be an integer",
     "any.required": "Product Item Id is required",
+  }),
+});
+
+const withoutProductVariantSchema = Joi.object({
+  price: Joi.number().precision(2).required().messages({
+    "number.base": "Price must be a float",
+    "any.required": "Price is required",
   }),
 });
 
@@ -192,7 +199,7 @@ const ProductVariantController = {
     const t = await sequelize.transaction();
 
     try {
-      const { error } = withoutProductVariant.validate(req.body);
+      const { error } = createWithoutProductVariantSchema.validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
@@ -243,55 +250,38 @@ const ProductVariantController = {
   },
 
   async updateWithoutVariant(req, res) {
-    const t = await sequelize.transaction();
-
     try {
-      const { error } = withoutProductVariant.validate(req.body);
+      const { error } = withoutProductVariantSchema.validate(req.body);
 
       if (error) {
-        await t.rollback();
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
       }
 
-      const { price, productItemId } = req.body;
+      const checkWithoutVariant = await ProductVariant.findByPk(req.params.id);
 
-      const productItem = await ProductItem.findOne({
-        where: { id: productItemId },
-        include: [{ model: ProductVariant }],
-        transaction: t,
-      });
+      if (!checkWithoutVariant) {
+        return responseJson(res, 404, "Failed: Product variant not found");
+      }
 
-      const checkProductWithoutVariant = productItem?.productVariants[0]?.name;
-
-      if (!productItem) {
-        await t.rollback();
-        return responseJson(res, 404, "Failed: Product Item not found");
-      } else if (checkProductWithoutVariant !== null) {
-        await t.rollback();
-        return responseJson(res, 404, "Failed: Wrong Product without variants");
+      if (checkWithoutVariant.name !== null) {
+        return responseJson(res, 400, "Failed: Wrong Product without variants");
       }
 
       const updateProductVariant = await ProductVariant.update(
         {
-          price,
-          productItemId,
+          price: req.body.price,
         },
         {
           where: { id: req.params.id },
-        },
-        { transaction: t }
+        }
       );
 
       if (updateProductVariant[0] === 0) {
-        await t.rollback();
-        return responseJson(res, 404, "Failed: Product variant not found");
+        return responseJson(res, 404, "Failed: Update Product without variant");
       }
-
-      await t.commit();
 
       return responseJson(res, 200, "Success");
     } catch (error) {
-      await t.rollback();
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
