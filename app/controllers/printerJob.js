@@ -157,6 +157,7 @@ const PrinterJobController = {
           { model: Printer, where: { name: req.params.printer } },
           { model: ProductCategory },
         ],
+        attributes: { exclude: ["printerId", "productCategoryId"] },
       });
 
       if (!getPrinterJobs.length) {

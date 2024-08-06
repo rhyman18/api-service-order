@@ -314,12 +314,6 @@ printerJobRoute.delete("/printer/jobs/:id", (req, res) => {
  *                       id:
  *                         type: integer
  *                         example: 1
- *                       printerId:
- *                         type: integer
- *                         example: 1
- *                       productCategoryId:
- *                         type: integer
- *                         example: 1
  *                       printer:
  *                         type: object
  *                         properties:
