@@ -81,6 +81,58 @@ const PrinterJobController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async update(req, res) {
+    try {
+      const { error } = printerJobSchema.validate(req.body);
+
+      if (error) {
+        return responseJson(res, 400, `Failed: ${error.details[0].message}`);
+      }
+
+      const { printerId, productCategoryId } = req.body;
+
+      const checkPrinter = await Printer.findByPk(printerId);
+
+      if (!checkPrinter) {
+        return responseJson(res, 404, "Failed: Printer not found");
+      }
+
+      const checkProductCategory = await ProductCategory.findByPk(
+        productCategoryId
+      );
+
+      if (!checkProductCategory) {
+        return responseJson(res, 404, "Failed: Product Category not found");
+      }
+
+      const existingPrinterJob = await PrinterJob.findOne({
+        where: { printerId, productCategoryId },
+      });
+
+      if (existingPrinterJob) {
+        return responseJson(res, 400, "Failed: Printer job already registered");
+      }
+
+      const updatePrinterJob = await PrinterJob.update(
+        {
+          printerId,
+          productCategoryId,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      );
+
+      if (updatePrinterJob[0] === 0) {
+        return responseJson(res, 404, "Failed: Printer job not found");
+      }
+
+      return responseJson(res, 200, "Success");
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = PrinterJobController;

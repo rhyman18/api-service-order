@@ -183,4 +183,61 @@ printerJobRoute.post("/printer/jobs", (req, res) => {
   PrinterJobController.create(req, res);
 });
 
+/**
+ * @swagger
+ * /api/printer/jobs/{id}:
+ *   put:
+ *     summary: Update Printer Job
+ *     description: Update an existing printer job
+ *     tags:
+ *       - Printer Jobs
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The printer job ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               printerId:
+ *                 type: integer
+ *                 description: The ID of the printer
+ *                 example: 1
+ *               productCategoryId:
+ *                 type: integer
+ *                 description: The ID of the product category
+ *                 example: 1
+ *             required:
+ *               - printerId
+ *               - productCategoryId
+ *     responses:
+ *       200:
+ *         description: Successfully updated printer job
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Printer/Product category not found
+ */
+printerJobRoute.put("/printer/jobs/:id", (req, res) => {
+  PrinterJobController.update(req, res);
+});
+
 module.exports = printerJobRoute;
