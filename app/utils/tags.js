@@ -27,6 +27,10 @@ const tagDocs = [
     name: "Printers",
     description: "CRUD Printer Devices",
   },
+  {
+    name: "Printer Jobs",
+    description: "Setup Printer Jobs to Print based on Product category",
+  },
 ];
 
 module.exports = tagDocs;
