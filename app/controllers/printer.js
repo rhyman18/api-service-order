@@ -1,17 +1,7 @@
 const responseJson = require("../utils/response");
-const Joi = require("joi");
+const { printerSchema } = require("../utils/validate");
 const db = require("../models");
 const Printer = db.printer;
-
-const createPrinterSchema = Joi.object({
-  name: Joi.string().min(3).max(50).required().messages({
-    "string.base": "Name must be a string",
-    "string.empty": "Name cannot be empty",
-    "string.min": "Name must be at least 1 character long",
-    "string.max": "Name must be at most 50 characters long",
-    "any.required": "Name is required",
-  }),
-});
 
 const PrinterController = {
   async findAll(req, res) {
@@ -46,7 +36,7 @@ const PrinterController = {
 
   async create(req, res) {
     try {
-      const { error } = createPrinterSchema.validate(req.body);
+      const { error } = printerSchema.validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
@@ -64,7 +54,7 @@ const PrinterController = {
 
   async update(req, res) {
     try {
-      const { error } = createPrinterSchema.validate(req.body);
+      const { error } = printerSchema.validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
