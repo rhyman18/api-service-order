@@ -347,4 +347,66 @@ printerJobRoute.get("/printer/jobs/name/:printer", (req, res) => {
   PrinterJobController.findByPrinter(req, res);
 });
 
+/**
+ * @swagger
+ * /api/printer/jobs/category/{category}:
+ *   get:
+ *     summary: Get List Printer Jobs by Product Category
+ *     description: To get a list of all printer jobs filtered by product category
+ *     tags:
+ *       - Printer Jobs
+ *     parameters:
+ *       - name: category
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: Minuman
+ *         description: The name of the product category
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved printer jobs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       productCategory:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           name:
+ *                             type: string
+ *                             example: Minuman
+ *                       printer:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           name:
+ *                             type: string
+ *                             example: Printer Kasir
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed No Printer jobs found
+ */
+printerJobRoute.get("/printer/jobs/category/:category", (req, res) => {
+  PrinterJobController.findByCategory(req, res);
+});
+
 module.exports = printerJobRoute;

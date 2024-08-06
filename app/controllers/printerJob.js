@@ -168,6 +168,26 @@ const PrinterJobController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async findByCategory(req, res) {
+    try {
+      const getPrinterJobs = await PrinterJob.findAll({
+        include: [
+          { model: ProductCategory, where: { name: req.params.category } },
+          { model: Printer },
+        ],
+        attributes: { exclude: ["printerId", "productCategoryId"] },
+      });
+
+      if (!getPrinterJobs.length) {
+        return responseJson(res, 400, "Failed: No Printer jobs found");
+      }
+
+      return responseJson(res, 200, "Success", getPrinterJobs);
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = PrinterJobController;
