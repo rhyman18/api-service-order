@@ -1,17 +1,7 @@
 const responseJson = require("../utils/response");
-const Joi = require("joi");
+const { tableSchema } = require("../utils/validate");
 const db = require("../models");
 const Table = db.table;
-
-const createTableSchema = Joi.object({
-  name: Joi.string().min(3).max(50).required().messages({
-    "string.base": "Name must be a string",
-    "string.empty": "Name cannot be empty",
-    "string.min": "Name must be at least 1 character long",
-    "string.max": "Name must be at most 50 characters long",
-    "any.required": "Name is required",
-  }),
-});
 
 const TableController = {
   async findAll(req, res) {
@@ -46,7 +36,7 @@ const TableController = {
 
   async create(req, res) {
     try {
-      const { error } = createTableSchema.validate(req.body);
+      const { error } = tableSchema.validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
@@ -64,7 +54,7 @@ const TableController = {
 
   async update(req, res) {
     try {
-      const { error } = createTableSchema.validate(req.body);
+      const { error } = tableSchema.validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
