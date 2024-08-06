@@ -240,4 +240,43 @@ printerJobRoute.put("/printer/jobs/:id", (req, res) => {
   PrinterJobController.update(req, res);
 });
 
+/**
+ * @swagger
+ * /api/printer/jobs/{id}:
+ *   delete:
+ *     summary: Delete Printer Job
+ *     description: Delete an existing printer job
+ *     tags:
+ *       - Printer Jobs
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The printer job ID
+ *     responses:
+ *       200:
+ *         description: Successfully deleted printer job
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Printer job not found
+ */
+printerJobRoute.delete("/printer/jobs/:id", (req, res) => {
+  PrinterJobController.destroy(req, res);
+});
+
 module.exports = printerJobRoute;
