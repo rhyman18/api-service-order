@@ -117,10 +117,24 @@ const productVariantSchema = {
   },
 };
 
+const printerJobSchema = Joi.object({
+  printerId: Joi.number().required().messages({
+    "number.base": "Printer Id must be an integer",
+    "number.empty": "Printer Id cannot be empty",
+    "any.required": "Printer is required",
+  }),
+  productCategoryId: Joi.number().required().messages({
+    "number.base": "Product Category Id must be an integer",
+    "number.empty": "Product Category Id cannot be empty",
+    "any.required": "Product Category is required",
+  }),
+});
+
 module.exports = {
   printerSchema,
   tableSchema,
   productCategorySchema,
   productItemSchema,
   productVariantSchema,
+  printerJobSchema,
 };
