@@ -1,71 +1,9 @@
 const responseJson = require("../utils/response");
-const Joi = require("joi");
+const { productVariantSchema } = require("../utils/validate");
 const db = require("../models");
 const sequelize = db.sequelize;
 const ProductVariant = db.productVariant;
 const ProductItem = db.productItem;
-
-const createProductVariantSchema = Joi.object({
-  productItemId: Joi.number().integer().required().messages({
-    "number.base": "Product Item Id must be an integer",
-    "any.required": "Product Item Id is required",
-  }),
-  variants: Joi.array()
-    .items(
-      Joi.object({
-        name: Joi.string().min(3).max(50).required().messages({
-          "string.base": "Name must be a string",
-          "string.empty": "Name cannot be empty",
-          "string.min": "Name must be at least 1 character long",
-          "string.max": "Name must be at most 50 characters long",
-          "any.required": "Name is required",
-        }),
-        price: Joi.number().precision(2).required().messages({
-          "number.base": "Price must be a float",
-          "any.required": "Price is required",
-        }),
-      })
-    )
-    .min(1)
-    .required()
-    .messages({
-      "array.base": "Variants must be an array",
-      "array.min": "Variants array cannot be empty",
-      "any.required": "Variants are required",
-    }),
-});
-
-const updateProductVariantSchema = Joi.object({
-  name: Joi.string().min(3).max(50).required().messages({
-    "string.base": "Name must be a string",
-    "string.empty": "Name cannot be empty",
-    "string.min": "Name must be at least 1 character long",
-    "string.max": "Name must be at most 50 characters long",
-    "any.required": "Name is required",
-  }),
-  price: Joi.number().precision(2).required().messages({
-    "number.base": "Price must be a float",
-    "any.required": "Price is required",
-  }),
-});
-
-const createWithoutProductVariantSchema = Joi.object({
-  price: Joi.number().precision(2).required().messages({
-    "number.base": "Price must be a float",
-    "any.required": "Price is required",
-  }),
-  productItemId: Joi.number().integer().required().messages({
-    "number.base": "Product Item Id must be an integer",
-    "any.required": "Product Item Id is required",
-  }),
-});
-
-const withoutProductVariantSchema = Joi.object({
-  price: Joi.number().precision(2).required().messages({
-    "number.base": "Price must be a float",
-    "any.required": "Price is required",
-  }),
-});
 
 const ProductVariantController = {
   async findAll(req, res) {
@@ -105,7 +43,7 @@ const ProductVariantController = {
     const t = await sequelize.transaction();
 
     try {
-      const { error } = createProductVariantSchema.validate(req.body);
+      const { error } = productVariantSchema.create().validate(req.body);
 
       if (error) {
         t.rollback();
@@ -151,7 +89,7 @@ const ProductVariantController = {
 
   async update(req, res) {
     try {
-      const { error } = updateProductVariantSchema.validate(req.body);
+      const { error } = productVariantSchema.update().validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
@@ -199,7 +137,7 @@ const ProductVariantController = {
     const t = await sequelize.transaction();
 
     try {
-      const { error } = createWithoutProductVariantSchema.validate(req.body);
+      const { error } = productVariantSchema.createWithout().validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
@@ -251,7 +189,7 @@ const ProductVariantController = {
 
   async updateWithoutVariant(req, res) {
     try {
-      const { error } = withoutProductVariantSchema.validate(req.body);
+      const { error } = productVariantSchema.without().validate(req.body);
 
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
