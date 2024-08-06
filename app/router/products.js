@@ -76,6 +76,7 @@ productRoute.get("/products", (req, res) => {
  *         required: true
  *         schema:
  *           type: string
+ *           default: minuman
  *         description: The product category name
  *     responses:
  *       200:
