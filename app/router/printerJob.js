@@ -279,4 +279,72 @@ printerJobRoute.delete("/printer/jobs/:id", (req, res) => {
   PrinterJobController.destroy(req, res);
 });
 
+/**
+ * @swagger
+ * /api/printer/jobs/name/{printer}:
+ *   get:
+ *     summary: Get List Printer Jobs by Printer Name
+ *     description: To get a list of all printer jobs filtered by printer name
+ *     tags:
+ *       - Printer Jobs
+ *     parameters:
+ *       - name: printer
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: Printer Kasir
+ *         description: The name of the printer
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved printer jobs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       printerId:
+ *                         type: integer
+ *                         example: 1
+ *                       productCategoryId:
+ *                         type: integer
+ *                         example: 1
+ *                       printer:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           name:
+ *                             type: string
+ *                             example: Printer Kasir
+ *                       productCategory:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           name:
+ *                             type: string
+ *                             example: Minuman
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed No Printer jobs found
+ */
+printerJobRoute.get("/printer/jobs/name/:printer", (req, res) => {
+  PrinterJobController.findByPrinter(req, res);
+});
+
 module.exports = printerJobRoute;
