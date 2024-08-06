@@ -20,6 +20,23 @@ const PrinterJobController = {
       return responseJson(res, 400, `Failed: ${error}`);
     }
   },
+
+  async findOne(req, res) {
+    try {
+      const getPrinterJob = await PrinterJob.findOne({
+        where: { id: req.params.id },
+        include: [{ model: Printer }, { model: ProductCategory }],
+      });
+
+      if (!getPrinterJob) {
+        return responseJson(res, 404, "Failed: Printer Job not found");
+      }
+
+      return responseJson(res, 200, "Success", getPrinterJob);
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error}`);
+    }
+  },
 };
 
 module.exports = PrinterJobController;
