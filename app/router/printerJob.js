@@ -121,9 +121,66 @@ printerJobRoute.get("/printer/jobs", (req, res) => {
  *       404:
  *         description: Failed Printer Job not found
  */
-
 printerJobRoute.get("/printer/jobs/:id", (req, res) => {
   PrinterJobController.findOne(req, res);
+});
+
+/**
+ * @swagger
+ * /api/printer/jobs:
+ *   post:
+ *     summary: Add Printer Job
+ *     description: Create a new printer job
+ *     tags:
+ *       - Printer Jobs
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               printerId:
+ *                 type: integer
+ *                 description: The ID of the printer
+ *                 example: 1
+ *               productCategoryId:
+ *                 type: integer
+ *                 description: The ID of the product category
+ *                 example: 1
+ *             required:
+ *               - printerId
+ *               - productCategoryId
+ *     responses:
+ *       200:
+ *         description: Successfully created printer job
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     printerId:
+ *                       type: integer
+ *                       example: 1
+ *                     productCategoryId:
+ *                       type: integer
+ *                       example: 1
+ *       400:
+ *         description: Failed Invalid message
+ *       404:
+ *         description: Failed Printer/Product category not found
+ */
+printerJobRoute.post("/printer/jobs", (req, res) => {
+  PrinterJobController.create(req, res);
 });
 
 module.exports = printerJobRoute;
