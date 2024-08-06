@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const tagDocs = require("./app/utils/tags");
 
 const checkRoute = require("./app/router/checkRoute");
 const printerRoute = require("./app/router/printer");
@@ -41,6 +42,7 @@ const swaggerDefinition = {
       url: process.env.AUTHOR_SITE,
     },
   },
+  tags: tagDocs,
   servers: [
     {
       url: baseUrl,
