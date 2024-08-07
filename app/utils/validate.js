@@ -130,6 +130,48 @@ const printerJobSchema = Joi.object({
   }),
 });
 
+const orderSchema = Joi.object({
+  customerName: Joi.string().min(3).max(50).required().messages({
+    "string.base": "Customer Name must be a string",
+    "string.empty": "Customer Name cannot be empty",
+    "string.min": "Customer Name must be at least 3 characters long",
+    "string.max": "Customer Name must be at most 50 characters long",
+    "any.required": "Customer Name is required",
+  }),
+  paymentMethod: Joi.string().min(3).max(50).required().messages({
+    "string.base": "Payment Method must be a string",
+    "string.empty": "Payment Method cannot be empty",
+    "string.min": "Payment Method must be at least 3 characters long",
+    "string.max": "Payment Method must be at most 50 characters long",
+    "any.required": "Payment Method is required",
+  }),
+  tableId: Joi.number().integer().required().messages({
+    "number.base": "Table ID must be an integer",
+    "number.empty": "Table ID cannot be empty",
+    "any.required": "Table ID is required",
+  }),
+  orderProducts: Joi.array()
+    .items(
+      Joi.object({
+        id: Joi.number().integer().required().messages({
+          "number.base": "Product ID must be an integer",
+          "any.required": "Product ID is required",
+        }),
+        qty: Joi.number().integer().positive().required().messages({
+          "number.base": "Quantity must be an integer",
+          "number.positive": "Quantity must be a positive number",
+          "any.required": "Quantity is required",
+        }),
+      })
+    )
+    .required()
+    .messages({
+      "array.base": "Order Products must be an array",
+      "array.empty": "Order Products cannot be empty",
+      "any.required": "Order Products are required",
+    }),
+});
+
 module.exports = {
   printerSchema,
   tableSchema,
@@ -137,4 +179,5 @@ module.exports = {
   productItemSchema,
   productVariantSchema,
   printerJobSchema,
+  orderSchema,
 };
