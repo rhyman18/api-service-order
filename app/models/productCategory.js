@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 const productCategory = (sequelize, DataTypes) => {
   class ProductCategory extends Model {
     static associate(models) {
-      // relational with other models
+      ProductCategory.hasMany(models.printerJob);
     }
   }
 
