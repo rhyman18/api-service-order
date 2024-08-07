@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 const orderProduct = (sequelize, DataTypes) => {
   class OrderProduct extends Model {
     static associate(models) {
-      // relational with other models
+      OrderProduct.belongsTo(models.productVariant);
     }
   }
 
