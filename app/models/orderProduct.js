@@ -11,7 +11,7 @@ const orderProduct = (sequelize, DataTypes) => {
     {
       orderId: DataTypes.INTEGER,
       productVariantId: DataTypes.INTEGER,
-      qty: DataTypes.INTEGER,
+      quantity: DataTypes.INTEGER,
     },
     {
       sequelize,

@@ -11,7 +11,6 @@ const order = (sequelize, DataTypes) => {
   Order.init(
     {
       customerName: DataTypes.STRING,
-      totalPrice: DataTypes.FLOAT,
       paymentMethod: DataTypes.STRING,
       tableId: DataTypes.INTEGER,
     },
