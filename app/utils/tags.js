@@ -1,35 +1,35 @@
 const tagDocs = [
   {
     name: "Check",
-    description: "API checking",
+    description: "Endpoints for verifying API functionality and status.",
   },
   {
     name: "Products",
-    description: "API detailed Products",
+    description: "Endpoints for retrieving detailed information about products.",
   },
   {
     name: "Product Categories",
-    description: "CRUD Product categories",
+    description: "Endpoints for handling product category.",
   },
   {
     name: "Product Items",
-    description: "CRUD Product items",
+    description: "Endpoints for managing individual product items.",
   },
   {
     name: "Product Variants",
-    description: "CRUD Product Variants",
+    description: "Endpoints for handling different variants of products, including pricing.",
   },
   {
     name: "Tables",
-    description: "CRUD Table Order",
+    description: "Endpoints for managing table information.",
   },
   {
     name: "Printers",
-    description: "CRUD Printer Devices",
+    description: "Endpoints for managing printer devices.",
   },
   {
     name: "Printer Jobs",
-    description: "Setup Printer Jobs to Print based on Product category",
+    description: "Endpoints for configuring printer jobs based on product categories.",
   },
 ];
 

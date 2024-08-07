@@ -27,24 +27,16 @@ const ProductController = {
 
   async findByCategory(req, res) {
     try {
-      const getCategory = await ProductCategory.findOne({
-        where: { name: req.params.category },
-      });
-
-      if (!getCategory) {
-        return responseJson(res, 400, "Failed: Products category not found");
-      }
-
       const getProducts = await ProductItem.findAll({
-        where: { productCategoryId: getCategory.id },
         include: [
+          { model: ProductCategory, where: { name: req.params.category } },
           { model: ProductVariant, attributes: { exclude: ["productItemId"] } },
         ],
         attributes: { exclude: ["productCategoryId"] },
       });
 
       if (!getProducts.length) {
-        return responseJson(res, 400, "Failed: Products is empty");
+        return responseJson(res, 404, "Failed: Product/Category not found");
       }
 
       return responseJson(res, 200, "Success", getProducts);
