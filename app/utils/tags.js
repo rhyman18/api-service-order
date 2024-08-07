@@ -4,6 +4,10 @@ const tagDocs = [
     description: "Endpoints for verifying API functionality and status.",
   },
   {
+    "name": "Orders",
+    "description": "Endpoints for processing order requests and determining the appropriate printer to use."
+  },  
+  {
     name: "Products",
     description: "Endpoints for retrieving detailed information about products.",
   },
