@@ -14,6 +14,7 @@ const productItemRoute = require("./app/router/productItem");
 const productVariantRoute = require("./app/router/productVariant");
 const productRoute = require("./app/router/products");
 const printerJobRoute = require("./app/router/printerJob");
+const orderRoute = require("./app/router/order");
 const notFoundRoute = require("./app/router/notFound");
 
 const app = express();
@@ -82,6 +83,7 @@ app.use("/api/", productItemRoute);
 app.use("/api/", productVariantRoute);
 app.use("/api/", productRoute);
 app.use("/api/", printerJobRoute);
+app.use("/api/", orderRoute);
 app.use("*", notFoundRoute);
 
 app.listen(port, () => console.log(`${title} run on ${baseUrl}`));
