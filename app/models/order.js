@@ -3,16 +3,17 @@ const { Model } = require("sequelize");
 const order = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
-      // relational with other models
+      Order.belongsTo(models.table);
+      Order.hasMany(models.orderProduct);
     }
   }
 
   Order.init(
     {
-      tableId: DataTypes.INTEGER,
       customerName: DataTypes.STRING,
       totalPrice: DataTypes.FLOAT,
       paymentMethod: DataTypes.STRING,
+      tableId: DataTypes.INTEGER,
     },
     {
       sequelize,
