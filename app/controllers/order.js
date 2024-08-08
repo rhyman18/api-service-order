@@ -108,15 +108,7 @@ const OrderController = {
           (sum, product) => sum + product.total,
           0
         ),
-        date: new Date(createOrder.createdAt).toLocaleDateString("id-ID", {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
-        }),
+        date: createOrder.createdAt,
       };
 
       return responseJson(res, 200, "Success", response);
