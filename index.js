@@ -5,18 +5,7 @@ const logger = require("morgan");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const tagDocs = require("./app/utils/tags");
-
-const checkRoute = require("./app/router/checkRoute");
-const printerRoute = require("./app/router/printer");
-const tableRoute = require("./app/router/table");
-const productCategoryRoute = require("./app/router/productCategory");
-const productItemRoute = require("./app/router/productItem");
-const productVariantRoute = require("./app/router/productVariant");
-const productRoute = require("./app/router/products");
-const printerJobRoute = require("./app/router/printerJob");
-const orderRoute = require("./app/router/order");
-const billRoute = require("./app/router/bill");
-const notFoundRoute = require("./app/router/notFound");
+const router = require("./app/router");
 
 const app = express();
 
@@ -76,16 +65,16 @@ app.use((req, res, next) => {
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use("/api/", checkRoute);
-app.use("/api/", printerRoute);
-app.use("/api/", tableRoute);
-app.use("/api/", productCategoryRoute);
-app.use("/api/", productItemRoute);
-app.use("/api/", productVariantRoute);
-app.use("/api/", productRoute);
-app.use("/api/", printerJobRoute);
-app.use("/api/", orderRoute);
-app.use("/api/", billRoute);
-app.use("*", notFoundRoute);
+app.use("/api/", router.checkRoute);
+app.use("/api/", router.printerRoute);
+app.use("/api/", router.tableRoute);
+app.use("/api/", router.productCategoryRoute);
+app.use("/api/", router.productItemRoute);
+app.use("/api/", router.productVariantRoute);
+app.use("/api/", router.productRoute);
+app.use("/api/", router.printerJobRoute);
+app.use("/api/", router.orderRoute);
+app.use("/api/", router.billRoute);
+app.use("*", router.notFoundRoute);
 
 app.listen(port, () => console.log(`${title} run on ${baseUrl}`));
