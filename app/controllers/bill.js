@@ -76,6 +76,71 @@ const BillController = {
       return responseJson(res, 400, `Failed: ${error.message}`);
     }
   },
+
+  async findOne(req, res) {
+    try {
+      const getBill = await Order.findOne({
+        where: { id: req.params.id },
+        include: [
+          { model: Table },
+          {
+            model: OrderProduct,
+            include: [
+              {
+                model: ProductVariant,
+                include: [
+                  {
+                    model: ProductItem,
+                    include: [
+                      {
+                        model: ProductCategory,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!getBill) {
+        return responseJson(res, 400, "Failed: Bill is not found");
+      }
+
+      const {
+        id,
+        customerName,
+        paymentMethod,
+        table: { name: tableName },
+        orderProducts,
+        createdAt,
+      } = getBill;
+
+      const products = orderProducts.map((orderProduct) => ({
+        category: orderProduct.productVariant.productItem.productCategory.name,
+        name: orderProduct.productVariant.productItem.name,
+        variant: orderProduct.productVariant.name,
+        price: orderProduct.productVariant.price,
+        quantity: orderProduct.quantity,
+        total: orderProduct.productVariant.price * orderProduct.quantity,
+      }));
+
+      const detailBill = {
+        id,
+        customerName,
+        paymentMethod,
+        tableName,
+        products,
+        grandTotal: products.reduce((sum, product) => sum + product.total, 0),
+        date: createdAt,
+      };
+
+      return responseJson(res, 200, "Success", detailBill);
+    } catch (error) {
+      return responseJson(res, 400, `Failed: ${error.message}`);
+    }
+  },
 };
 
 module.exports = BillController;
