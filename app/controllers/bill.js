@@ -66,6 +66,7 @@ const BillController = {
           paymentMethod,
           tableName,
           products,
+          grandTotal: products.reduce((sum, product) => sum + product.total, 0),
           date: createdAt,
         };
       });

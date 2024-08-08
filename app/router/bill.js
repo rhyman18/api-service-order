@@ -61,6 +61,9 @@ const BillController = require("../controllers/bill");
  *                             total:
  *                               type: integer
  *                               example: 15000
+ *                       grandTotal:
+ *                         type: integer
+ *                         example: 87000
  *                       date:
  *                         type: string
  *                         format: date-time
