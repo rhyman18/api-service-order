@@ -196,6 +196,23 @@ const signUpSchema = Joi.object({
   }),
 });
 
+const signInSchema = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.email": "Email must be a valid email",
+      "string.empty": "Email is required",
+      "any.required": "Email is required",
+    }),
+  password: Joi.string().min(6).required().messages({
+    "string.base": "Password should be a type of text",
+    "string.empty": "Password is required",
+    "string.min": "Password should have a minimum length of 6",
+    "any.required": "Password is required",
+  }),
+});
+
 module.exports = {
   printerSchema,
   tableSchema,
@@ -205,4 +222,5 @@ module.exports = {
   printerJobSchema,
   orderSchema,
   signUpSchema,
+  signInSchema,
 };
