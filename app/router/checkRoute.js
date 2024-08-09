@@ -1,6 +1,7 @@
 const express = require("express");
 const checkRoute = express.Router();
 const CheckController = require("../controllers/checkController");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -30,6 +31,38 @@ const CheckController = require("../controllers/checkController");
  */
 checkRoute.get("/check", (req, res) => {
   CheckController.db(req, res);
+});
+
+/**
+ * @swagger
+ * /api/check/auth:
+ *   get:
+ *     summary: Check Authorization keys.
+ *     description: To check if the token authorization is valid.
+ *     tags:
+ *       - Check
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Authorized.
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       500:
+ *         description: Unauthorized.
+ */
+checkRoute.get("/check/auth", (req, res) => {
+  verifyToken(req, res, CheckController.db);
 });
 
 module.exports = checkRoute;
