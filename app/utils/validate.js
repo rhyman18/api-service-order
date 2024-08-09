@@ -172,6 +172,47 @@ const orderSchema = Joi.object({
     }),
 });
 
+const signUpSchema = Joi.object({
+  name: Joi.string().min(3).max(30).required().messages({
+    "string.base": "Name should be a type of text",
+    "string.empty": "Name is required",
+    "string.min": "Name should have a minimum length of 3",
+    "string.max": "Name should have a maximum length of 30",
+    "any.required": "Name is required",
+  }),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.email": "Email must be a valid email",
+      "string.empty": "Email is required",
+      "any.required": "Email is required",
+    }),
+  password: Joi.string().min(6).required().messages({
+    "string.base": "Password should be a type of text",
+    "string.empty": "Password is required",
+    "string.min": "Password should have a minimum length of 6",
+    "any.required": "Password is required",
+  }),
+});
+
+const signInSchema = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.email": "Email must be a valid email",
+      "string.empty": "Email is required",
+      "any.required": "Email is required",
+    }),
+  password: Joi.string().min(6).required().messages({
+    "string.base": "Password should be a type of text",
+    "string.empty": "Password is required",
+    "string.min": "Password should have a minimum length of 6",
+    "any.required": "Password is required",
+  }),
+});
+
 module.exports = {
   printerSchema,
   tableSchema,
@@ -180,4 +221,6 @@ module.exports = {
   productVariantSchema,
   printerJobSchema,
   orderSchema,
+  signUpSchema,
+  signInSchema,
 };

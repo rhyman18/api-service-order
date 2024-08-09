@@ -1,6 +1,7 @@
 const express = require("express");
 const productRoute = express.Router();
 const ProductController = require("../controllers/products");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -59,7 +60,7 @@ const ProductController = require("../controllers/products");
  *         description: Failed Invalid message
  */
 productRoute.get("/products", (req, res) => {
-  ProductController.findAll(req, res);
+  verifyToken(req, res, ProductController.findAll);
 });
 
 /**
@@ -118,7 +119,7 @@ productRoute.get("/products", (req, res) => {
  *         description: Failed Invalid message
  */
 productRoute.get("/products/:category", (req, res) => {
-  ProductController.findByCategory(req, res);
+  verifyToken(req, res, ProductController.findByCategory);
 });
 
 /**
@@ -185,7 +186,7 @@ productRoute.get("/products/:category", (req, res) => {
  *         description: Failed Invalid message
  */
 productRoute.get("/products/id/:id", (req, res) => {
-  ProductController.findOne(req, res);
+  verifyToken(req, res, ProductController.findOne);
 });
 
 module.exports = productRoute;

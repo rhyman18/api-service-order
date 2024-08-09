@@ -1,6 +1,7 @@
 const express = require("express");
 const tableRoute = express.Router();
 const TableController = require("../controllers/table");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -36,7 +37,7 @@ const TableController = require("../controllers/table");
  *         description: Failed Invalid message
  */
 tableRoute.get("/tables", (req, res) => {
-  TableController.findAll(req, res);
+ verifyToken(req, res, TableController.findAll);
 });
 
 /**
@@ -80,7 +81,7 @@ tableRoute.get("/tables", (req, res) => {
  *         description: Failed Table not found
  */
 tableRoute.get("/tables/:id", (req, res) => {
-  TableController.findOne(req, res);
+  verifyToken(req, res, TableController.findOne);
 });
 
 /**
@@ -128,7 +129,7 @@ tableRoute.get("/tables/:id", (req, res) => {
  *         description: Failed Invalid message
  */
 tableRoute.post("/tables", (req, res) => {
-  TableController.create(req, res);
+  verifyToken(req, res, TableController.create);
 });
 
 /**
@@ -180,7 +181,7 @@ tableRoute.post("/tables", (req, res) => {
  *         description: Failed Table not found
  */
 tableRoute.put("/tables/:id", (req, res) => {
-  TableController.update(req, res);
+  verifyToken(req, res, TableController.update);
 });
 
 /**
@@ -219,7 +220,7 @@ tableRoute.put("/tables/:id", (req, res) => {
  *         description: Failed Table not found
  */
 tableRoute.delete("/tables/:id", (req, res) => {
-  TableController.destroy(req, res);
+  verifyToken(req, res, TableController.destroy);
 });
 
 module.exports = tableRoute;

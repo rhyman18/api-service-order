@@ -1,6 +1,7 @@
 const express = require("express");
 const printerJobRoute = express.Router();
 const PrinterJobController = require("../controllers/printerJob");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -57,7 +58,7 @@ const PrinterJobController = require("../controllers/printerJob");
  *         description: Failed Invalid message
  */
 printerJobRoute.get("/printer/jobs", (req, res) => {
-  PrinterJobController.findAll(req, res);
+  verifyToken(req, res, PrinterJobController.findAll);
 });
 
 /**
@@ -122,7 +123,7 @@ printerJobRoute.get("/printer/jobs", (req, res) => {
  *         description: Failed Printer Job not found
  */
 printerJobRoute.get("/printer/jobs/:id", (req, res) => {
-  PrinterJobController.findOne(req, res);
+  verifyToken(req, res, PrinterJobController.findOne);
 });
 
 /**
@@ -180,7 +181,7 @@ printerJobRoute.get("/printer/jobs/:id", (req, res) => {
  *         description: Failed Printer/Product category not found
  */
 printerJobRoute.post("/printer/jobs", (req, res) => {
-  PrinterJobController.create(req, res);
+  verifyToken(req, res, PrinterJobController.create);
 });
 
 /**
@@ -237,7 +238,7 @@ printerJobRoute.post("/printer/jobs", (req, res) => {
  *         description: Failed Printer/Product category not found
  */
 printerJobRoute.put("/printer/jobs/:id", (req, res) => {
-  PrinterJobController.update(req, res);
+  verifyToken(req, res, PrinterJobController.update);
 });
 
 /**
@@ -276,7 +277,7 @@ printerJobRoute.put("/printer/jobs/:id", (req, res) => {
  *         description: Failed Printer job not found
  */
 printerJobRoute.delete("/printer/jobs/:id", (req, res) => {
-  PrinterJobController.destroy(req, res);
+  verifyToken(req, res, PrinterJobController.destroy);
 });
 
 /**
@@ -338,7 +339,7 @@ printerJobRoute.delete("/printer/jobs/:id", (req, res) => {
  *         description: Failed No Printer jobs found
  */
 printerJobRoute.get("/printer/jobs/name/:printer", (req, res) => {
-  PrinterJobController.findByPrinter(req, res);
+  verifyToken(req, res, PrinterJobController.findByPrinter);
 });
 
 /**
@@ -400,7 +401,7 @@ printerJobRoute.get("/printer/jobs/name/:printer", (req, res) => {
  *         description: Failed No Printer jobs found
  */
 printerJobRoute.get("/printer/jobs/category/:category", (req, res) => {
-  PrinterJobController.findByCategory(req, res);
+  verifyToken(req, res, PrinterJobController.findByCategory);
 });
 
 module.exports = printerJobRoute;

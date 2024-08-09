@@ -1,6 +1,7 @@
 const express = require("express");
 const printerRoute = express.Router();
 const PrinterController = require("../controllers/printer");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -36,7 +37,7 @@ const PrinterController = require("../controllers/printer");
  *         description: Failed Invalid message
  */
 printerRoute.get("/printers", (req, res) => {
-  PrinterController.findAll(req, res);
+  verifyToken(req, res, PrinterController.findAll);
 });
 
 /**
@@ -80,7 +81,7 @@ printerRoute.get("/printers", (req, res) => {
  *         description: Failed Printer not found
  */
 printerRoute.get("/printers/:id", (req, res) => {
-  PrinterController.findOne(req, res);
+  verifyToken(req, res, PrinterController.findOne);
 });
 
 /**
@@ -128,7 +129,7 @@ printerRoute.get("/printers/:id", (req, res) => {
  *         description: Failed Invalid message
  */
 printerRoute.post("/printers", (req, res) => {
-  PrinterController.create(req, res);
+  verifyToken(req, res, PrinterController.create);
 });
 
 /**
@@ -180,7 +181,7 @@ printerRoute.post("/printers", (req, res) => {
  *         description: Failed Printer not found
  */
 printerRoute.put("/printers/:id", (req, res) => {
-  PrinterController.update(req, res);
+  verifyToken(req, res, PrinterController.update);
 });
 
 /**
@@ -219,7 +220,7 @@ printerRoute.put("/printers/:id", (req, res) => {
  *         description: Failed Printer not found
  */
 printerRoute.delete("/printers/:id", (req, res) => {
-  PrinterController.destroy(req, res);
+  verifyToken(req, res, PrinterController.destroy);
 });
 
 module.exports = printerRoute;

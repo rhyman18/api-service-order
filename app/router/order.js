@@ -1,6 +1,7 @@
 const express = require("express");
 const orderRoute = express.Router();
 const OrderController = require("../controllers/order");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -183,7 +184,7 @@ const OrderController = require("../controllers/order");
  *         description: Failed Table not found
  */
 orderRoute.post("/orders", (req, res) => {
-  OrderController.create(req, res);
+  verifyToken(req, res, OrderController.create);
 });
 
 module.exports = orderRoute;

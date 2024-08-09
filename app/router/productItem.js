@@ -1,6 +1,7 @@
 const express = require("express");
 const productItemRoute = express.Router();
 const ProductItemController = require("../controllers/productItem");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -48,7 +49,7 @@ const ProductItemController = require("../controllers/productItem");
  *         description: Failed Invalid message
  */
 productItemRoute.get("/product/items", (req, res) => {
-  ProductItemController.findAll(req, res);
+  verifyToken(req, res, ProductItemController.findAll);
 });
 
 /**
@@ -104,7 +105,7 @@ productItemRoute.get("/product/items", (req, res) => {
  *         description: Failed Product Item not found
  */
 productItemRoute.get("/product/items/:id", (req, res) => {
-  ProductItemController.findOne(req, res);
+  verifyToken(req, res, ProductItemController.findOne);
 });
 
 /**
@@ -162,7 +163,7 @@ productItemRoute.get("/product/items/:id", (req, res) => {
  *         description: Failed Product Category not found
  */
 productItemRoute.post("/product/items", (req, res) => {
-  ProductItemController.create(req, res);
+  verifyToken(req, res, ProductItemController.create);
 });
 
 /**
@@ -219,7 +220,7 @@ productItemRoute.post("/product/items", (req, res) => {
  *         description: Failed Product Item/Category not found
  */
 productItemRoute.put("/product/items/:id", (req, res) => {
-  ProductItemController.update(req, res);
+  verifyToken(req, res, ProductItemController.update);
 });
 
 /**
@@ -258,7 +259,7 @@ productItemRoute.put("/product/items/:id", (req, res) => {
  *         description: Failed Product Item not found
  */
 productItemRoute.delete("/product/items/:id", (req, res) => {
-  ProductItemController.destroy(req, res);
+  verifyToken(req, res, ProductItemController.destroy);
 });
 
 module.exports = productItemRoute;

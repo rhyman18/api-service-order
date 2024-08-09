@@ -8,6 +8,10 @@ const CheckController = {
 
     return responseJson(res, responseCode, status.response);
   },
+
+  async auth(req, res) {
+    return responseJson(res, 200, "Authorized");
+  },
 };
 
 module.exports = CheckController;

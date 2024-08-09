@@ -1,6 +1,7 @@
 const express = require("express");
 const billRoute = express.Router();
 const BillController = require("../controllers/bill");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -72,7 +73,7 @@ const BillController = require("../controllers/bill");
  *         description: Failed Invalid message
  */
 billRoute.get("/bills", (req, res) => {
-  BillController.findAll(req, res);
+  verifyToken(req, res, BillController.findAll);
 });
 
 /**
@@ -160,7 +161,7 @@ billRoute.get("/bills", (req, res) => {
  *         description: Failed Invalid message
  */
 billRoute.get("/bills/date", (req, res) => {
-  BillController.findByDate(req, res);
+  verifyToken(req, res, BillController.findByDate);
 });
 
 /**
@@ -238,7 +239,7 @@ billRoute.get("/bills/date", (req, res) => {
  *         description: Failed Invalid message
  */
 billRoute.get("/bills/:id", (req, res) => {
-  BillController.findOne(req, res);
+  verifyToken(req, res, BillController.findOne);
 });
 
 module.exports = billRoute;
