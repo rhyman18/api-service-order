@@ -1,6 +1,7 @@
 const express = require("express");
 const productCategoryRoute = express.Router();
 const ProductCategoryController = require("../controllers/productCategory");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -36,7 +37,7 @@ const ProductCategoryController = require("../controllers/productCategory");
  *         description: Failed Invalid message
  */
 productCategoryRoute.get("/product/categories", (req, res) => {
-  ProductCategoryController.findAll(req, res);
+  verifyToken(req, res, ProductCategoryController.findAll);
 });
 
 /**
@@ -80,7 +81,7 @@ productCategoryRoute.get("/product/categories", (req, res) => {
  *         description: Failed Product Category not found
  */
 productCategoryRoute.get("/product/categories/:id", (req, res) => {
-  ProductCategoryController.findOne(req, res);
+  verifyToken(req, res, ProductCategoryController.findOne);
 });
 
 /**
@@ -128,7 +129,7 @@ productCategoryRoute.get("/product/categories/:id", (req, res) => {
  *         description: Failed Invalid message
  */
 productCategoryRoute.post("/product/categories", (req, res) => {
-  ProductCategoryController.create(req, res);
+  verifyToken(req, res, ProductCategoryController.create);
 });
 
 /**
@@ -180,7 +181,7 @@ productCategoryRoute.post("/product/categories", (req, res) => {
  *         description: Failed Product Category not found
  */
 productCategoryRoute.put("/product/categories/:id", (req, res) => {
-  ProductCategoryController.update(req, res);
+  verifyToken(req, res, ProductCategoryController.update);
 });
 
 /**
@@ -219,7 +220,7 @@ productCategoryRoute.put("/product/categories/:id", (req, res) => {
  *         description: Failed Product Category not found
  */
 productCategoryRoute.delete("/product/categories/:id", (req, res) => {
-  ProductCategoryController.destroy(req, res);
+  verifyToken(req, res, ProductCategoryController.destroy);
 });
 
 module.exports = productCategoryRoute;
