@@ -4,12 +4,29 @@ This repository provides a service for managing orders through an API. The API i
 
 ## Table of Contents
 
+- [Tech Stack](#tech-stack)
 - [Installation](#installation)
 - [Database Setup](#database-setup)
 - [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
 - [API Documentation](#api-documentation)
 - [ERD Database](#erd-database)
+
+## Tech Stack
+
+**Express**: A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+
+**Sequelize**: A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite, and Microsoft SQL Server. It features solid transaction support, relations, eager and lazy loading, read replication, and more.
+
+**MySQL2**: A MySQL client for Node.js with a focus on performance. It supports both callbacks and promises.
+
+**Swagger**: A set of open-source tools built around the OpenAPI Specification that helps design, build, document, and consume RESTful web services. This project uses `swagger-jsdoc` for generating API documentation and `swagger-ui-express` for serving the documentation.
+
+**jsonwebtoken**: A library to work with JSON Web Tokens (JWT), which are commonly used for secure data transmission and user authentication.
+
+**dotenv**: A zero-dependency module that loads environment variables from a `.env` file into `process.env`, allowing you to separate your secrets and configuration from your code.
+
+**bcryptjs**: A library to hash passwords and compare hashed passwords, enhancing the security of user authentication.
 
 ## Installation
 
@@ -32,7 +49,7 @@ npm i
 
 **Import Database Schema**
 
-If you already have MySQL and phpMyAdmin installed, import the database schema from data.sql using your preferred tool (e.g., MySQL Workbench or the MySQL command line):
+If you already have MySQL and phpMyAdmin installed, import the database schema from `data.sql` using your preferred tool (e.g., MySQL Workbench or the MySQL command line):
 
 ```sh
 mysql -u your_username -p your_database < data.sql
@@ -44,15 +61,15 @@ If you do not have MySQL and phpMyAdmin installed, you can use Docker to set up 
 docker compose up -d
 ```
 
-This will start MySQL and phpMyAdmin services as defined in the docker-compose.yml file. You can then access phpMyAdmin at http://localhost:8080 to import the data.sql file.
+This will start MySQL and phpMyAdmin services as defined in the `docker-compose.yml` file. You can then access phpMyAdmin at `http://localhost:8080` to import the `data.sql` file.
 
 **Configure Database Connection**
 
-Make sure to configure your database connection settings in the config/config.json file or the environment variables to match the Docker container setup or your local MySQL configuration.
+Make sure to configure your database connection settings in the `docker-compose.yml` file or the environment variables to match the Docker container setup or your local MySQL configuration.
 
 ## Environment Variables
 
-Edit a .env file in the root of your project and edit of the following configuration based on your setting, example:
+Edit a `.env` file in the root of your project and edit of the following configuration based on your setting, example:
 
 ```sh
 HOST=http://localhost
@@ -72,7 +89,7 @@ To start the application, use the following command:
 npm run start
 ```
 
-This will start the API server, and it should be accessible at http://localhost:9000 (or the port you have configured).
+This will start the API server, and it should be accessible at `http://localhost:9000` (or the port you have configured).
 
 ## API Documentation
 
