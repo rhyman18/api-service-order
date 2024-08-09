@@ -35,6 +35,20 @@ const swaggerDefinition = {
     },
   },
   tags: tagDocs,
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
+  },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   servers: [
     {
       url: baseUrl,
