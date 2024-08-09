@@ -66,6 +66,7 @@ app.use((req, res, next) => {
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/", router.checkRoute);
+app.use("/api/auth/", router.authRoute);
 app.use("/api/", router.printerRoute);
 app.use("/api/", router.tableRoute);
 app.use("/api/", router.productCategoryRoute);

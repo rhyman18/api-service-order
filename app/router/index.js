@@ -1,4 +1,5 @@
 const checkRoute = require("./checkRoute");
+const authRoute = require("./auth");
 const printerRoute = require("./printer");
 const tableRoute = require("./table");
 const productCategoryRoute = require("./productCategory");
@@ -12,6 +13,7 @@ const notFoundRoute = require("./notFound");
 
 module.exports = {
   checkRoute,
+  authRoute,
   printerRoute,
   tableRoute,
   productCategoryRoute,
