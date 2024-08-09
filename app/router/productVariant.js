@@ -1,6 +1,7 @@
 const express = require("express");
 const productVariantRoute = express.Router();
 const ProductVariantController = require("../controllers/productVariant");
+const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
@@ -54,7 +55,7 @@ const ProductVariantController = require("../controllers/productVariant");
  *         description: Failed Invalid message
  */
 productVariantRoute.get("/product/variants", (req, res) => {
-  ProductVariantController.findAll(req, res);
+  verifyToken(req, res, ProductVariantController.findAll);
 });
 
 /**
@@ -116,7 +117,7 @@ productVariantRoute.get("/product/variants", (req, res) => {
  *         description: Failed Product Variant not found
  */
 productVariantRoute.get("/product/variants/:id", (req, res) => {
-  ProductVariantController.findOne(req, res);
+  verifyToken(req, res, ProductVariantController.findOne);
 });
 
 /**
@@ -190,7 +191,7 @@ productVariantRoute.get("/product/variants/:id", (req, res) => {
  *         description: Failed Product Item not found
  */
 productVariantRoute.post("/product/variants", (req, res) => {
-  ProductVariantController.bulkCreate(req, res);
+  verifyToken(req, res, ProductVariantController.bulkCreate);
 });
 
 /**
@@ -248,7 +249,7 @@ productVariantRoute.post("/product/variants", (req, res) => {
  *         description: Failed Product Variant not found
  */
 productVariantRoute.put("/product/variants/:id", (req, res) => {
-  ProductVariantController.update(req, res);
+  verifyToken(req, res, ProductVariantController.update);
 });
 
 /**
@@ -287,7 +288,7 @@ productVariantRoute.put("/product/variants/:id", (req, res) => {
  *         description: Failed Product Variant not found
  */
 productVariantRoute.delete("/product/variants/:id", (req, res) => {
-  ProductVariantController.destroy(req, res);
+  verifyToken(req, res, ProductVariantController.destroy);
 });
 
 /**
@@ -349,7 +350,7 @@ productVariantRoute.delete("/product/variants/:id", (req, res) => {
  *         description: Failed Product Item not found
  */
 productVariantRoute.post("/product/variants/without", (req, res) => {
-  ProductVariantController.create(req, res);
+  verifyToken(req, res, ProductVariantController.create);
 });
 
 /**
@@ -403,7 +404,7 @@ productVariantRoute.post("/product/variants/without", (req, res) => {
  *         description: Failed Product Variant/Item not found
  */
 productVariantRoute.put("/product/variants/without/:id", (req, res) => {
-  ProductVariantController.updateWithoutVariant(req, res);
+  verifyToken(req, res, ProductVariantController.updateWithoutVariant);
 });
 
 module.exports = productVariantRoute;
