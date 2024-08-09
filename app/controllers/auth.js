@@ -27,11 +27,22 @@ const AuthController = {
         password: bcrypt.hashSync(password, 8),
       });
 
+      const generateToken = jwt.sign(
+        {
+          id: signUp.id,
+        },
+        process.env.SECRET_AUTH,
+        {
+          expiresIn: 86400,
+        }
+      );
+
       const response = {
         id: signUp.id,
         name,
         email,
         password,
+        accessToken: generateToken,
       };
 
       return responseJson(res, 200, "Success", response);

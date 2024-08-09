@@ -59,6 +59,9 @@ const AuthController = require("../controllers/auth");
  *                     password:
  *                       type: string
  *                       example: password123
+ *                     accessToken:
+ *                       type: string
+ *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzIzMjA5OTQ1LCJleHAiOjE3MjMyOTYzNDV9.xihf5gyyA5GZ_uASAVSmor548g5ODqdc9CcxadZOM3E
  *       400:
  *         description: Failed
  *         content:
