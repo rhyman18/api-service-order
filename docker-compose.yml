@@ -24,5 +24,11 @@ services:
     depends_on:
       - db
 
+  redis:
+    image: redis
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+
 volumes:
   db_data:
