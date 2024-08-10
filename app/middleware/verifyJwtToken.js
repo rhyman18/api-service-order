@@ -3,6 +3,7 @@ const responseJson = require("../utils/response");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
 const User = db.user;
+const redisCache = require("./redisCache");
 
 const verifyToken = async (req, res, callback) => {
   const tokenHeader = req.headers.authorization || false;
@@ -23,11 +24,17 @@ const verifyToken = async (req, res, callback) => {
       return responseJson(res, 500, `Failed: ${error}`);
     }
 
-    req.loginId = decoded.id;
+    const id = decoded.id;
+    const cacheKey = `auth:${id}`;
+    req.loginId = id;
 
-    const getUser = await User.findByPk(decoded.id);
-    if (!getUser) {
-      return responseJson(res, 500, "Failed: ID not found");
+    const cachedData = await redisCache.get(cacheKey);
+    if (!cachedData) {
+      const getUser = await User.findByPk(id);
+      if (!getUser) {
+        return responseJson(res, 500, "Failed: ID not found");
+      }
+      await redisCache.set(cacheKey, getUser);
     }
 
     callback(req, res);
