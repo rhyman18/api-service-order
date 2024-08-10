@@ -38,6 +38,10 @@ class RedisCache {
     await this.redisClient.del(key);
   }
 
+  async keys(key) {
+    return await this.redisClient.keys(key);
+  }
+
   status() {
     return this.redisClient.status;
   }
