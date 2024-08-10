@@ -153,7 +153,11 @@ const PrinterJobController = {
       );
 
       if (updatePrinterJob[0] === 0) {
-        return responseJson(res, 404, "Failed: Printer job not found");
+        return responseJson(
+          res,
+          404,
+          "Failed: No change detected or Printer job not found"
+        );
       }
 
       const findByPrinterKey = await redisCache.keys(
