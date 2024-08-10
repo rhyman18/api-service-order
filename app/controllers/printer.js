@@ -88,11 +88,6 @@ const PrinterController = {
       const id = req.params.id;
       const cacheKey = `printers:${id}`;
 
-      const cachedData = await redisCache.get(cacheKey);
-      if (cachedData) {
-        return responseJsonV2(res, 200, JSON.parse(cachedData));
-      }
-
       const updatePrinter = await Printer.update(
         {
           name: req.body.name,

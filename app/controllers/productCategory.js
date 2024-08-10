@@ -88,11 +88,6 @@ const ProductCategoryController = {
       const id = req.params.id;
       const cacheKey = `productCategories:${id}`;
 
-      const cachedData = await redisCache.get(cacheKey);
-      if (cachedData) {
-        return responseJsonV2(res, 200, JSON.parse(cachedData));
-      }
-
       const updateProductCategory = await ProductCategory.update(
         {
           name: req.body.name,
