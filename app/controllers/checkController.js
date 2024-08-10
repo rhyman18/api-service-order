@@ -1,7 +1,7 @@
 const responseJson = require("../utils/response");
 const responseJsonV2 = require("../utils/responseV2");
 const CheckModel = require("../models/checkModel");
-const { redis } = require("../middleware/redisCache");
+const redis = require("../middleware/redis");
 
 const CheckController = {
   async db(req, res) {
