@@ -62,7 +62,37 @@ checkRoute.get("/check", (req, res) => {
  *         description: Unauthorized.
  */
 checkRoute.get("/check/auth", (req, res) => {
-  verifyToken(req, res, CheckController.db);
+  verifyToken(req, res, CheckController.auth);
+});
+
+/**
+ * @swagger
+ * /api/check/redis:
+ *   get:
+ *     summary: Check Redis Connection.
+ *     description: To check if the Redis connection is established.
+ *     tags:
+ *       - Check
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: ready
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       500:
+ *         description: Unable to connect to Redis.
+ */
+checkRoute.get("/check/redis", (req, res) => {
+  CheckController.redis(req, res);
 });
 
 module.exports = checkRoute;
