@@ -156,7 +156,18 @@ const PrinterJobController = {
         return responseJson(res, 404, "Failed: Printer job not found");
       }
 
-      const keys = [cacheKey, "printerJobs:all"];
+      const findByPrinterKey = await redisCache.keys(
+        "printerJobs:findByPrinter:*"
+      );
+      const findByCategoryKey = await redisCache.keys(
+        "printerJobs:findByCategory:*"
+      );
+      const keys = [
+        cacheKey,
+        "printerJobs:all",
+        ...findByPrinterKey,
+        ...findByCategoryKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -178,7 +189,18 @@ const PrinterJobController = {
         return responseJson(res, 404, "Failed: Printer job not found");
       }
 
-      const keys = [cacheKey, "printerJobs:all"];
+      const findByPrinterKey = await redisCache.keys(
+        "printerJobs:findByPrinter:*"
+      );
+      const findByCategoryKey = await redisCache.keys(
+        "printerJobs:findByCategory:*"
+      );
+      const keys = [
+        cacheKey,
+        "printerJobs:all",
+        ...findByPrinterKey,
+        ...findByCategoryKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
