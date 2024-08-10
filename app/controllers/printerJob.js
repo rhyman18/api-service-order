@@ -1,13 +1,21 @@
 const responseJson = require("../utils/response");
+const responseJsonV2 = require("../utils/responseV2");
 const { printerJobSchema } = require("../utils/validate");
 const db = require("../models");
 const PrinterJob = db.printerJob;
 const Printer = db.printer;
 const ProductCategory = db.productCategory;
+const redisCache = require("../middleware/redisCache");
 
 const PrinterJobController = {
   async findAll(req, res) {
     try {
+      const cacheKey = "printerJobs:all";
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
+
       const getPrinterJobs = await PrinterJob.findAll({
         include: [{ model: Printer }, { model: ProductCategory }],
       });
@@ -16,7 +24,10 @@ const PrinterJobController = {
         return responseJson(res, 400, "Failed: Printer Jobs is empty");
       }
 
-      return responseJson(res, 200, "Success", getPrinterJobs);
+      const response = { message: "Success", data: getPrinterJobs };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
     }
@@ -24,8 +35,16 @@ const PrinterJobController = {
 
   async findOne(req, res) {
     try {
+      const id = req.params.id;
+      const cacheKey = `printerJobs:${id}`;
+
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
+
       const getPrinterJob = await PrinterJob.findOne({
-        where: { id: req.params.id },
+        where: { id },
         include: [{ model: Printer }, { model: ProductCategory }],
       });
 
@@ -33,7 +52,10 @@ const PrinterJobController = {
         return responseJson(res, 404, "Failed: Printer Job not found");
       }
 
-      return responseJson(res, 200, "Success", getPrinterJob);
+      const response = { message: "Success", data: getPrinterJob };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
     }
@@ -42,7 +64,6 @@ const PrinterJobController = {
   async create(req, res) {
     try {
       const { error } = printerJobSchema.validate(req.body);
-
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
       }
@@ -76,7 +97,12 @@ const PrinterJobController = {
         productCategoryId,
       });
 
-      return responseJson(res, 200, "Success", createPrinterJob);
+      const cacheKey = `printerJobs:${createPrinterJob.id}`;
+      const response = { message: "Success", data: createPrinterJob };
+      await redisCache.set(cacheKey, response);
+      await redisCache.del("printerJobs:all");
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
     }
@@ -85,7 +111,6 @@ const PrinterJobController = {
   async update(req, res) {
     try {
       const { error } = printerJobSchema.validate(req.body);
-
       if (error) {
         return responseJson(res, 400, `Failed: ${error.details[0].message}`);
       }
@@ -114,19 +139,25 @@ const PrinterJobController = {
         return responseJson(res, 400, "Failed: Printer job already registered");
       }
 
+      const id = req.params.id;
+      const cacheKey = `printerJobs:${id}`;
+
       const updatePrinterJob = await PrinterJob.update(
         {
           printerId,
           productCategoryId,
         },
         {
-          where: { id: req.params.id },
+          where: { id },
         }
       );
 
       if (updatePrinterJob[0] === 0) {
         return responseJson(res, 404, "Failed: Printer job not found");
       }
+
+      const keys = [cacheKey, "printerJobs:all"];
+      await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
     } catch (error) {
@@ -136,13 +167,19 @@ const PrinterJobController = {
 
   async destroy(req, res) {
     try {
+      const id = req.params.id;
+      const cacheKey = `printerJobs:${id}`;
+
       const deletePrinterJob = await PrinterJob.destroy({
-        where: { id: req.params.id },
+        where: { id },
       });
 
       if (!deletePrinterJob) {
         return responseJson(res, 404, "Failed: Printer job not found");
       }
+
+      const keys = [cacheKey, "printerJobs:all"];
+      await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
     } catch (error) {
@@ -152,9 +189,17 @@ const PrinterJobController = {
 
   async findByPrinter(req, res) {
     try {
+      const name = req.params.printer;
+      const cacheKey = `printerJobs:findByPrinter:${name}`;
+
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
+
       const getPrinterJobs = await PrinterJob.findAll({
         include: [
-          { model: Printer, where: { name: req.params.printer } },
+          { model: Printer, where: { name } },
           { model: ProductCategory },
         ],
         attributes: { exclude: ["printerId", "productCategoryId"] },
@@ -164,7 +209,10 @@ const PrinterJobController = {
         return responseJson(res, 400, "Failed: No Printer jobs found");
       }
 
-      return responseJson(res, 200, "Success", getPrinterJobs);
+      const response = { message: "Success", data: getPrinterJobs };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
     }
@@ -172,9 +220,17 @@ const PrinterJobController = {
 
   async findByCategory(req, res) {
     try {
+      const name = req.params.category;
+      const cacheKey = `printerJobs:findByCategory:${name}`;
+
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
+
       const getPrinterJobs = await PrinterJob.findAll({
         include: [
-          { model: ProductCategory, where: { name: req.params.category } },
+          { model: ProductCategory, where: { name } },
           { model: Printer },
         ],
         attributes: { exclude: ["printerId", "productCategoryId"] },
@@ -184,7 +240,10 @@ const PrinterJobController = {
         return responseJson(res, 400, "Failed: No Printer jobs found");
       }
 
-      return responseJson(res, 200, "Success", getPrinterJobs);
+      const response = { message: "Success", data: getPrinterJobs };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error}`);
     }
