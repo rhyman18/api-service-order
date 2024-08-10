@@ -105,7 +105,8 @@ const ProductCategoryController = {
         );
       }
 
-      const keys = [cacheKey, "productCategories:all"];
+      const printerJobsKey = await redisCache.keys("printerJobs:*");
+      const keys = [cacheKey, "productCategories:all", ...printerJobsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -127,7 +128,8 @@ const ProductCategoryController = {
         return responseJson(res, 404, "Failed: Product Category not found");
       }
 
-      const keys = [cacheKey, "productCategories:all"];
+      const printerJobsKey = await redisCache.keys("printerJobs:*");
+      const keys = [cacheKey, "productCategories:all", ...printerJobsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
