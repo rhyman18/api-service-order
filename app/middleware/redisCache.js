@@ -34,6 +34,10 @@ class RedisCache {
     );
   }
 
+  async del(key) {
+    await this.redisClient.del(key);
+  }
+
   status() {
     return this.redisClient.status;
   }
