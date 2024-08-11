@@ -11,6 +11,7 @@ const verifyToken = require("../middleware/verifyJwtToken");
  *     description: Retrieve a list of all bills with detailed information about each bill and its products.
  *     tags:
  *       - Bills
+ *     deprecated: true
  *     responses:
  *       200:
  *         description: Success
@@ -84,6 +85,7 @@ billRoute.get("/bills", (req, res) => {
  *     description: Retrieve a list of all bills with detailed information about each bill and its products. Optionally, filter bills by date range.
  *     tags:
  *       - Bills
+ *     deprecated: true
  *     parameters:
  *       - name: start
  *         in: query
@@ -172,6 +174,7 @@ billRoute.get("/bills/date", (req, res) => {
  *     description: Retrieve detailed information about a specific bill and its products.
  *     tags:
  *       - Bills
+ *     deprecated: true
  *     parameters:
  *       - name: id
  *         in: path
