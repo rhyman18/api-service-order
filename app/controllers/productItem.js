@@ -125,7 +125,8 @@ const ProductItemController = {
         );
       }
 
-      const keys = [cacheKey, "productItems:all"];
+      const productVariantsKey = await redisCache.keys("productVariants:*");
+      const keys = [cacheKey, "productItems:all", ...productVariantsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -147,7 +148,8 @@ const ProductItemController = {
         return responseJson(res, 404, "Failed: Product Item not found");
       }
 
-      const keys = [cacheKey, "productItems:all"];
+      const productVariantsKey = await redisCache.keys("productVariants:*");
+      const keys = [cacheKey, "productItems:all", ...productVariantsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
