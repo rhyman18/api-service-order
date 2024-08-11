@@ -56,6 +56,7 @@ CREATE TABLE `orders` (
   `customerName` varchar(50) NOT NULL,
   `paymentMethod` varchar(50) NOT NULL,
   `tableId` int NOT NULL,
+  `details` json DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -64,8 +65,8 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `customerName`, `paymentMethod`, `tableId`, `createdAt`, `updatedAt`) VALUES
-(1, 'John Doe', 'Credit Card', 1, '2024-08-07 17:16:15', '2024-08-08 15:34:24');
+INSERT INTO `orders` (`id`, `customerName`, `paymentMethod`, `tableId`, `details`, `createdAt`, `updatedAt`) VALUES
+(1, 'John Doe', 'Credit Card', 1, '{\"id\": 32, \"date\": \"2024-08-07T17:16:15.157Z\", \"table\": \"MEJA NO 1\", \"products\": [{\"name\": \"Jeruk\", \"price\": 12000, \"total\": 12000, \"variant\": \"DINGIN\", \"category\": \"Minuman\", \"quantity\": 1}, {\"name\": \"Kopi\", \"price\": 6000, \"total\": 6000, \"variant\": \"PANAS\", \"category\": \"Minuman\", \"quantity\": 1}, {\"name\": \"Nasi Goreng + Jeruk Dingin\", \"price\": 23000, \"total\": 46000, \"variant\": null, \"category\": \"Promo\", \"quantity\": 2}, {\"name\": \"Teh\", \"price\": 8000, \"total\": 8000, \"variant\": \"MANIS\", \"category\": \"Minuman\", \"quantity\": 1}, {\"name\": \"Mie\", \"price\": 15000, \"total\": 15000, \"variant\": \"GORENG\", \"category\": \"Makanan\", \"quantity\": 1}], \"grandTotal\": 87000, \"customerName\": \"John Doe\", \"paymentMethod\": \"Credit Card\"}', '2024-08-07 17:16:15', '2024-08-08 15:34:24');
 
 -- --------------------------------------------------------
 
