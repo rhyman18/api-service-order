@@ -140,7 +140,8 @@ const ProductVariantController = {
         );
       }
 
-      const keys = [cacheKey, "productVariants:all"];
+      const productsKey = await redisCache.keys("products:*");
+      const keys = [cacheKey, "productVariants:all", ...productsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -162,7 +163,8 @@ const ProductVariantController = {
         return responseJson(res, 404, "Failed: Product Variant not found");
       }
 
-      const keys = [cacheKey, "productVariants:all"];
+      const productsKey = await redisCache.keys("products:*");
+      const keys = [cacheKey, "productVariants:all", ...productsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -263,7 +265,8 @@ const ProductVariantController = {
         );
       }
 
-      const keys = [cacheKey, "productVariants:all"];
+      const productsKey = await redisCache.keys("products:*");
+      const keys = [cacheKey, "productVariants:all", ...productsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");

@@ -106,12 +106,14 @@ const ProductCategoryController = {
       }
 
       const printerJobsKey = await redisCache.keys("printerJobs:*");
-      const printerItemsKey = await redisCache.keys("productItems:*");
+      const productItemsKey = await redisCache.keys("productItems:*");
+      const productsKey = await redisCache.keys("products:*");
       const keys = [
         cacheKey,
         "productCategories:all",
         ...printerJobsKey,
-        ...printerItemsKey,
+        ...productItemsKey,
+        ...productsKey,
       ];
       await redisCache.del(keys);
 
@@ -135,12 +137,14 @@ const ProductCategoryController = {
       }
 
       const printerJobsKey = await redisCache.keys("printerJobs:*");
-      const printerItemsKey = await redisCache.keys("productItems:*");
+      const productItemsKey = await redisCache.keys("productItems:*");
+      const productsKey = await redisCache.keys("products:*");
       const keys = [
         cacheKey,
         "productCategories:all",
         ...printerJobsKey,
-        ...printerItemsKey,
+        ...productItemsKey,
+        ...productsKey,
       ];
       await redisCache.del(keys);
 

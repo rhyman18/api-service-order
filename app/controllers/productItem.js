@@ -82,7 +82,10 @@ const ProductItemController = {
       const cacheKey = `productItems:${createProductItem.id}`;
       const response = { message: "Success", data: createProductItem };
       await redisCache.set(cacheKey, response);
-      await redisCache.del("productItems:all");
+
+      const productsKey = await redisCache.keys("products:*");
+      const keys = ["productItems:all", ...productsKey];
+      await redisCache.del(keys);
 
       return responseJsonV2(res, 200, response);
     } catch (error) {
@@ -126,7 +129,13 @@ const ProductItemController = {
       }
 
       const productVariantsKey = await redisCache.keys("productVariants:*");
-      const keys = [cacheKey, "productItems:all", ...productVariantsKey];
+      const productsKey = await redisCache.keys("products:*");
+      const keys = [
+        cacheKey,
+        "productItems:all",
+        ...productVariantsKey,
+        ...productsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -149,7 +158,13 @@ const ProductItemController = {
       }
 
       const productVariantsKey = await redisCache.keys("productVariants:*");
-      const keys = [cacheKey, "productItems:all", ...productVariantsKey];
+      const productsKey = await redisCache.keys("products:*");
+      const keys = [
+        cacheKey,
+        "productItems:all",
+        ...productVariantsKey,
+        ...productsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
