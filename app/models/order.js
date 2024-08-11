@@ -13,6 +13,7 @@ const order = (sequelize, DataTypes) => {
       customerName: DataTypes.STRING,
       paymentMethod: DataTypes.STRING,
       tableId: DataTypes.INTEGER,
+      details: DataTypes.JSON,
     },
     {
       sequelize,
