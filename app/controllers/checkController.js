@@ -1,5 +1,7 @@
 const responseJson = require("../utils/response");
+const responseJsonV2 = require("../utils/responseV2");
 const CheckModel = require("../models/checkModel");
+const redisCache = require("../middleware/redisCache");
 
 const CheckController = {
   async db(req, res) {
@@ -11,6 +13,11 @@ const CheckController = {
 
   async auth(req, res) {
     return responseJson(res, 200, "Authorized");
+  },
+
+  async redis(req, res) {
+    const response = { message: redisCache.status(), data: null };
+    return responseJsonV2(res, 200, response);
   },
 };
 

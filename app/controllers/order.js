@@ -12,6 +12,7 @@ const {
   printer: Printer,
   table: Table,
 } = db;
+const redisCache = require("../middleware/redisCache");
 
 const OrderController = {
   async create(req, res) {
@@ -110,6 +111,10 @@ const OrderController = {
         ),
         date: createOrder.createdAt,
       };
+
+      const billsKey = await redisCache.keys("bills:*");
+      const keys = [...billsKey];
+      await redisCache.del(keys);
 
       return responseJson(res, 200, "Success", response);
     } catch (error) {
