@@ -9,6 +9,7 @@ const productRoute = require("./products");
 const printerJobRoute = require("./printerJob");
 const orderRoute = require("./order");
 const billRoute = require("./bill");
+const billV2Route = require("./billV2");
 const notFoundRoute = require("./notFound");
 
 module.exports = {
@@ -23,5 +24,6 @@ module.exports = {
   printerJobRoute,
   orderRoute,
   billRoute,
+  billV2Route,
   notFoundRoute,
 };
