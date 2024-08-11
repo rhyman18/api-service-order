@@ -106,7 +106,13 @@ const ProductCategoryController = {
       }
 
       const printerJobsKey = await redisCache.keys("printerJobs:*");
-      const keys = [cacheKey, "productCategories:all", ...printerJobsKey];
+      const printerItemsKey = await redisCache.keys("productItems:*");
+      const keys = [
+        cacheKey,
+        "productCategories:all",
+        ...printerJobsKey,
+        ...printerItemsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -129,7 +135,13 @@ const ProductCategoryController = {
       }
 
       const printerJobsKey = await redisCache.keys("printerJobs:*");
-      const keys = [cacheKey, "productCategories:all", ...printerJobsKey];
+      const printerItemsKey = await redisCache.keys("productItems:*");
+      const keys = [
+        cacheKey,
+        "productCategories:all",
+        ...printerJobsKey,
+        ...printerItemsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
