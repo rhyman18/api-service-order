@@ -1,4 +1,5 @@
 const responseJson = require("../utils/response");
+const responseJsonV2 = require("../utils/responseV2");
 const db = require("../models");
 const { Op } = db.Sequelize;
 const {
@@ -9,10 +10,17 @@ const {
   productCategory: ProductCategory,
   table: Table,
 } = db;
+const redisCache = require("../middleware/redisCache");
 
 const BillController = {
   async findAll(req, res) {
     try {
+      const cacheKey = "bills:all";
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
+
       const getBills = await Order.findAll({
         include: [
           { model: Table },
@@ -72,7 +80,10 @@ const BillController = {
         };
       });
 
-      return responseJson(res, 200, "Success", detailBills);
+      const response = { message: "Success", data: detailBills };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error.message}`);
     }
@@ -80,8 +91,16 @@ const BillController = {
 
   async findOne(req, res) {
     try {
+      const idOrder = req.params.id;
+      const cacheKey = `bills:${idOrder}`;
+
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
+
       const getBill = await Order.findOne({
-        where: { id: req.params.id },
+        where: { id: idOrder },
         include: [
           { model: Table },
           {
@@ -137,7 +156,10 @@ const BillController = {
         date: createdAt,
       };
 
-      return responseJson(res, 200, "Success", detailBill);
+      const response = { message: "Success", data: detailBill };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error.message}`);
     }
@@ -146,6 +168,12 @@ const BillController = {
   async findByDate(req, res) {
     try {
       const { start, end } = req.query;
+
+      const cacheKey = `bills:findByDate:${start}|${end}`;
+      const cachedData = await redisCache.get(cacheKey);
+      if (cachedData) {
+        return responseJsonV2(res, 200, JSON.parse(cachedData));
+      }
 
       let dateFilter = {};
       if (start && end) {
@@ -216,7 +244,10 @@ const BillController = {
         };
       });
 
-      return responseJson(res, 200, "Success", detailBills);
+      const response = { message: "Success", data: detailBills };
+      await redisCache.set(cacheKey, response);
+
+      return responseJsonV2(res, 200, response);
     } catch (error) {
       return responseJson(res, 400, `Failed: ${error.message}`);
     }
