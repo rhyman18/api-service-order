@@ -114,8 +114,7 @@ const OrderController = {
 
       const updateOrderDetails = await Order.update(
         { details: response },
-        { where: { id: createOrder.id } },
-        { transaction: t }
+        { where: { id: createOrder.id } }
       );
 
       if (updateOrderDetails[0] === 0) {
