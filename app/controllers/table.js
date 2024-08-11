@@ -105,7 +105,8 @@ const TableController = {
         );
       }
 
-      const keys = [cacheKey, "tables:all"];
+      const billsKey = await redisCache.keys("bills:*");
+      const keys = [cacheKey, "tables:all", ...billsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -127,7 +128,8 @@ const TableController = {
         return responseJson(res, 404, "Failed: Table not found");
       }
 
-      const keys = [cacheKey, "tables:all"];
+      const billsKey = await redisCache.keys("bills:*");
+      const keys = [cacheKey, "tables:all", ...billsKey];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");

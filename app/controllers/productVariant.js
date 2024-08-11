@@ -141,7 +141,13 @@ const ProductVariantController = {
       }
 
       const productsKey = await redisCache.keys("products:*");
-      const keys = [cacheKey, "productVariants:all", ...productsKey];
+      const billsKey = await redisCache.keys("bills:*");
+      const keys = [
+        cacheKey,
+        "productVariants:all",
+        ...productsKey,
+        ...billsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -164,7 +170,13 @@ const ProductVariantController = {
       }
 
       const productsKey = await redisCache.keys("products:*");
-      const keys = [cacheKey, "productVariants:all", ...productsKey];
+      const billsKey = await redisCache.keys("bills:*");
+      const keys = [
+        cacheKey,
+        "productVariants:all",
+        ...productsKey,
+        ...billsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");
@@ -266,7 +278,13 @@ const ProductVariantController = {
       }
 
       const productsKey = await redisCache.keys("products:*");
-      const keys = [cacheKey, "productVariants:all", ...productsKey];
+      const billsKey = await redisCache.keys("bills:*");
+      const keys = [
+        cacheKey,
+        "productVariants:all",
+        ...productsKey,
+        ...billsKey,
+      ];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success");

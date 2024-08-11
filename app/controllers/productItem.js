@@ -130,11 +130,13 @@ const ProductItemController = {
 
       const productVariantsKey = await redisCache.keys("productVariants:*");
       const productsKey = await redisCache.keys("products:*");
+      const billsKey = await redisCache.keys("bills:*");
       const keys = [
         cacheKey,
         "productItems:all",
         ...productVariantsKey,
         ...productsKey,
+        ...billsKey,
       ];
       await redisCache.del(keys);
 
@@ -159,11 +161,13 @@ const ProductItemController = {
 
       const productVariantsKey = await redisCache.keys("productVariants:*");
       const productsKey = await redisCache.keys("products:*");
+      const billsKey = await redisCache.keys("bills:*");
       const keys = [
         cacheKey,
         "productItems:all",
         ...productVariantsKey,
         ...productsKey,
+        ...billsKey,
       ];
       await redisCache.del(keys);
 
