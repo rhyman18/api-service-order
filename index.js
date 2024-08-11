@@ -89,6 +89,7 @@ app.use("/api/", router.productVariantRoute);
 app.use("/api/", router.productRoute);
 app.use("/api/", router.printerJobRoute);
 app.use("/api/", router.orderRoute);
+app.use("/api/", router.billV2Route);
 app.use("/api/", router.billRoute);
 app.use("*", router.notFoundRoute);
 

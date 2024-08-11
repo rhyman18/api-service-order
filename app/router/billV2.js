@@ -1,17 +1,16 @@
 const express = require("express");
-const billRoute = express.Router();
-const BillController = require("../controllers/bill");
+const billV2Route = express.Router();
+const BillV2Controller = require("../controllers/billV2");
 const verifyToken = require("../middleware/verifyJwtToken");
 
 /**
  * @swagger
- * /api/bills:
+ * /api/bills/v2:
  *   get:
  *     summary: Get List of Bills
  *     description: Retrieve a list of all bills with detailed information about each bill and its products.
  *     tags:
  *       - Bills
- *     deprecated: true
  *     responses:
  *       200:
  *         description: Success
@@ -73,19 +72,18 @@ const verifyToken = require("../middleware/verifyJwtToken");
  *       400:
  *         description: Failed Invalid message
  */
-billRoute.get("/bills", (req, res) => {
-  verifyToken(req, res, BillController.findAll);
+billV2Route.get("/bills/v2", (req, res) => {
+  verifyToken(req, res, BillV2Controller.findAll);
 });
 
 /**
  * @swagger
- * /api/bills/date:
+ * /api/bills/v2/date:
  *   get:
  *     summary: Get List of Bills by Date range
  *     description: Retrieve a list of all bills with detailed information about each bill and its products. Optionally, filter bills by date range.
  *     tags:
  *       - Bills
- *     deprecated: true
  *     parameters:
  *       - name: start
  *         in: query
@@ -162,19 +160,18 @@ billRoute.get("/bills", (req, res) => {
  *       400:
  *         description: Failed Invalid message
  */
-billRoute.get("/bills/date", (req, res) => {
-  verifyToken(req, res, BillController.findByDate);
+billV2Route.get("/bills/v2/date", (req, res) => {
+  verifyToken(req, res, BillV2Controller.findByDate);
 });
 
 /**
  * @swagger
- * /api/bills/{id}:
+ * /api/bills/v2/{id}:
  *   get:
  *     summary: Get Bill Details
  *     description: Retrieve detailed information about a specific bill and its products.
  *     tags:
  *       - Bills
- *     deprecated: true
  *     parameters:
  *       - name: id
  *         in: path
@@ -241,8 +238,8 @@ billRoute.get("/bills/date", (req, res) => {
  *       400:
  *         description: Failed Invalid message
  */
-billRoute.get("/bills/:id", (req, res) => {
-  verifyToken(req, res, BillController.findOne);
+billV2Route.get("/bills/v2/:id", (req, res) => {
+  verifyToken(req, res, BillV2Controller.findOne);
 });
 
-module.exports = billRoute;
+module.exports = billV2Route;
