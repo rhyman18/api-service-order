@@ -28,6 +28,8 @@ This repository provides a service for managing orders through an API. The API i
 
 **bcryptjs**: A library to hash passwords and compare hashed passwords, enhancing the security of user authentication.
 
+**ioredis**: A powerful Redis client for Node.js, supporting cluster and sentinel modes, suitable for advanced Redis features.
+
 ## Installation
 
 **Clone the Repository**
@@ -55,17 +57,17 @@ If you already have MySQL and phpMyAdmin installed, import the database schema f
 mysql -u your_username -p your_database < data.sql
 ```
 
-If you do not have MySQL and phpMyAdmin installed, you can use Docker to set up MySQL and phpMyAdmin. Ensure Docker is installed on your system, then run:
+If you do not have MySQL, Redis and phpMyAdmin installed, you can use Docker to set up MySQL, Redis, and phpMyAdmin. Ensure Docker is installed on your system, then run:
 
 ```sh
 docker compose up -d
 ```
 
-This will start MySQL and phpMyAdmin services as defined in the `docker-compose.yml` file. You can then access phpMyAdmin at `http://localhost:8080` to import the `data.sql` file.
+This will start MySQL, Redis, and phpMyAdmin services as defined in the `docker-compose.yml` file. You can then access phpMyAdmin at `http://localhost:8080` to import the `data.sql` file.
 
 **Configure Database Connection**
 
-Make sure to configure your database connection settings in the `docker-compose.yml` file or the environment variables to match the Docker container setup or your local MySQL configuration.
+Make sure to configure your database & redis connection settings in the `docker-compose.yml` file or the environment variables to match the Docker container setup or your local MySQL & Redis configuration.
 
 ## Environment Variables
 
@@ -74,11 +76,16 @@ Edit a `.env` file in the root of your project and edit of the following configu
 ```sh
 HOST=http://localhost
 PORT=9000
+
 DB_DRIVER=mysql
 DB_HOST=localhost
 DB_NAME=data
 DB_USERNAME=root
 DB_PASSWORD=12345678
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_EXPIRE=3600
 ```
 
 ## Running the Application
