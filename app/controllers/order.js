@@ -100,17 +100,29 @@ const OrderController = {
       const printers = Array.from(printersMap.values());
 
       const response = {
+        id: createOrder.id,
         customerName,
         paymentMethod,
         table: checkTable.name,
         products: orderProductDetail,
-        printers,
         grandTotal: orderProductDetail.reduce(
           (sum, product) => sum + product.total,
           0
         ),
         date: createOrder.createdAt,
       };
+
+      const updateOrderDetails = await Order.update(
+        { details: response },
+        { where: { id: createOrder.id } },
+        { transaction: t }
+      );
+
+      if (updateOrderDetails[0] === 0) {
+        return responseJson(res, 400, "Failed: Insert Order details");
+      }
+
+      response.printers = printers;
 
       const billsKey = await redisCache.keys("bills:*");
       const keys = [...billsKey];
