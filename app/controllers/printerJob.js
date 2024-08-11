@@ -100,7 +100,19 @@ const PrinterJobController = {
       const cacheKey = `printerJobs:${createPrinterJob.id}`;
       const response = { message: "Success", data: createPrinterJob };
       await redisCache.set(cacheKey, response);
-      await redisCache.del("printerJobs:all");
+
+      const findByPrinterKey = await redisCache.keys(
+        "printerJobs:findByPrinter:*"
+      );
+      const findByCategoryKey = await redisCache.keys(
+        "printerJobs:findByCategory:*"
+      );
+      const keys = [
+        "printerJobs:all",
+        ...findByPrinterKey,
+        ...findByCategoryKey,
+      ];
+      await redisCache.del(keys);
 
       return responseJsonV2(res, 200, response);
     } catch (error) {
