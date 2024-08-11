@@ -125,7 +125,8 @@ const OrderController = {
       response.printers = printers;
 
       const billsKey = await redisCache.keys("bills:*");
-      const keys = [...billsKey];
+      const billsV2Key = await redisCache.keys("billsV2:*");
+      const keys = [...billsKey, billsV2Key];
       await redisCache.del(keys);
 
       return responseJson(res, 200, "Success", response);
